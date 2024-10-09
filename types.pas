@@ -8,7 +8,8 @@ end;
 
 Type tank = record
 	nomT: String;
-	Vx,Vy,degats,Pv,x,y :integer;
+	degats,Pv,x,y :integer;
+	coefVit:Real;
 	Munition:Tmunition;
 	end;
 	
@@ -41,19 +42,22 @@ BEGIN
 	T[1].nomT:='Vic';
 	T[1].degats:=50;
 	T[1].Pv:=150;
+	T[1].coefVit:=0.5;
 	T[2].nomT:='JM';
 	T[2].degats:=80;
 	T[2].Pv:=110;
+	T[2].coefVit:=0.75;  //initialisation des valeurs des tanks
 	T[3].nomT:='Tom';
 	T[3].degats:=100;
 	T[3].Pv:=60;
+	T[3].coefVit:=1.0;
 END;
 
 procedure iniScore(var j1,j2:joueur);
 
 begin
 	j1.score:=0;
-	j2.score:=0;
+	j2.score:=0;       //initialisation des scores
 end;
 
 
