@@ -2,22 +2,18 @@ unit mouvement;
 
 
 interface
-uses types,interaction;
+uses types,interaction,crt,math;
 
-
-program mouvements;
-uses crt,math; 
-
-Type tank = record
-x,y :integer;
-vitesse:Integer;
-direction:real; {angle multiple de 22,5}
-end;
 	
-var 
-T1,T2: tank;
-touche:char;
 
+procedure affich(Tank1,Tank2:tank); {actualiser la position du tank}
+
+
+procedure avancer(var T:tank;angledeg:real; newx,newy: integer);
+
+
+
+implementation
 
 procedure affich(Tank1,Tank2:tank); {lactualiser la position du tank}
 begin
@@ -27,6 +23,7 @@ begin
 	GotoXY(Tank2.x,Tank2.y);
 	write('o');
 end;
+
 
 procedure avancer(var T:tank;angledeg:real; newx,newy: integer);
 var anglerad:real;
@@ -44,15 +41,7 @@ newy:=round(sin(anglerad));
 end;
 
 
-
-implementation
-
-
-
-
-
 BEGIN
 	
 	
 END.
-
