@@ -2,15 +2,17 @@ unit types;
 
 interface
 
-type Tmunition = record
+type Mun=record
 	nbRebonds,Vx,Vy,x,y:integer;
 end;
-
+type Tabmunition = array[1..5] of Mun;
+	
 Type tank = record
 	nomT: String;
-	degats,Pv,x,y :integer;
+	degats,Pv,x,y:integer;
 	coefVit:Real;
-	Munition:Tmunition;
+	direction:real;
+	Munitions:Tabmunition;
 	end;
 	
 type obstacle = record
