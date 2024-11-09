@@ -11,3 +11,5 @@ BEGIN
 end;
 
 END.
+if (((T.x + (0.5 * T.direction) > i) or (T.y + (0.5 * T.direction) > j)) and (c[i][j] = 'x')) then 
+        col := True;
