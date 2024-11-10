@@ -4,6 +4,8 @@ interface
 
 uses crt,types,cartes,math;
 
+const epais : real=0.5;
+
 procedure colliObsD(T:tank;c:tobst;var col:boolean);//collision case de droite
 procedure colliObsG(T:tank;c:tobst;var col:boolean);//collision case de gauche
 procedure colliObsH(T:tank;c:tobst;var col:boolean);//collision case en haut
@@ -16,13 +18,15 @@ procedure colliObsDBG(T:tank;c:tobst;var col:boolean);//collision case diagonale
 
 implementation
 
+
+
 procedure colliObsD(T:tank;c:tobst;var col:boolean); //collision case de droite
 var i,j :Integer;
 
 BEGIN
 	i:=trunc(T.x)+1; 
 	j:=trunc(T.y);
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((T.x+epais>i)  and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -33,7 +37,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x)-1; 
 	j:=trunc(T.y);
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((T.x-epais<i) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -44,7 +48,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x); 
 	j:=trunc(T.y)-1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((T.y-epais<j) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -54,7 +58,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x); 
 	j:=trunc(T.y)+1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((T.y+epais>j) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -65,7 +69,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x)+1; 
 	j:=trunc(T.y)-1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((((T.x+epais)>i) or( T.y-epais<j)) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -76,7 +80,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x)+1; 
 	j:=trunc(T.y)+1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((((T.x+epais)>i) or( T.y+epais>j)) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -87,7 +91,7 @@ var i,j :Integer;
 BEGIN
 	i:=trunc(T.x)-1; 
 	j:=trunc(T.y)-1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if ((((T.x-epais)<i) or( T.y-epais<j)) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
@@ -96,9 +100,9 @@ procedure colliObsDBG(T:tank;c:tobst;var col:boolean);//collision case diagonale
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)+1; 
+	i:=trunc(T.x)-1; 
 	j:=trunc(T.y)+1;
-	if (((T.x+(0.5*T.direction)>i) or( T.y+(0.5*T.direction)>j)) and (c[i][j]='x')) then 
+	if (((T.x-epais)<i) or( T.y+epais>j)) and (c[i][j]='x') then 
 		col:=True;
 	
 end;
