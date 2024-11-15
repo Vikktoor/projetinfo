@@ -6,103 +6,103 @@ uses crt,types,cartes,math;
 
 const epais : real=0.5;
 
-procedure colliObsD(T:tank;c:tobst;var col:boolean);//collision case de droite
-procedure colliObsG(T:tank;c:tobst;var col:boolean);//collision case de gauche
-procedure colliObsH(T:tank;c:tobst;var col:boolean);//collision case en haut
-procedure colliObsB(T:tank;c:tobst;var col:boolean);//collision case en bas
+procedure colliObsD(jou:joueur;c:tobst;var col:boolean);//collision case de droite
+procedure colliObsG(jou:joueur;c:tobst;var col:boolean);//collision case de gauche
+procedure colliObsH(jou:joueur;c:tobst;var col:boolean);//collision case en haut
+procedure colliObsB(jou:joueur;c:tobst;var col:boolean);//collision case en bas
 
-procedure colliObsDHD(T:tank;c:tobst;var col:boolean);//collision case diagonale en haut droite
-procedure colliObsDBD(T:tank;c:tobst;var col:boolean);//collision case diagonale en bas droite
-procedure colliObsDHG(T:tank;c:tobst;var col:boolean);//collision case diagonale en haut gauche
-procedure colliObsDBG(T:tank;c:tobst;var col:boolean);//collision case diagonale en bas gauche
+procedure colliObsDHD(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en haut droite
+procedure colliObsDBD(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en bas droite
+procedure colliObsDHG(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en haut gauche
+procedure colliObsDBG(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en bas gauche
 
 implementation
 
 
 
-procedure colliObsD(T:tank;c:tobst;var col:boolean); //collision case de droite
+procedure colliObsD(jou:joueur;c:tobst;var col:boolean); //collision case de droite
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)+1; 
-	j:=trunc(T.y);
-	if ((T.x+epais>i)  and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx)+1; 
+	j:=trunc(jou.t.posy);
+	if ((jou.t.posx+epais>i)  and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
 
-procedure colliObsG(T:tank;c:tobst;var col:boolean); //collisin case de gauche
+procedure colliObsG(jou:joueur;c:tobst;var col:boolean); //collisin case de gauche
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)-1; 
-	j:=trunc(T.y);
-	if ((T.x-epais<i) and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx)-1; 
+	j:=trunc(jou.t.posy);
+	if ((jou.t.posx-epais<i) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
 
-procedure colliObsH(T:tank;c:tobst;var col:boolean);
+procedure colliObsH(jou:joueur;c:tobst;var col:boolean);
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x); 
-	j:=trunc(T.y)-1;
-	if ((T.y-epais<j) and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx); 
+	j:=trunc(jou.t.posy)-1;
+	if ((jou.t.posy-epais<j) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
-procedure colliObsB(T:tank;c:tobst;var col:boolean);
+procedure colliObsB(jou:joueur;c:tobst;var col:boolean);
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x); 
-	j:=trunc(T.y)+1;
-	if ((T.y+epais>j) and (c[i][j]='x')) then 
-		col:=True;
-	
-end;
-
-procedure colliObsDHD(T:tank;c:tobst;var col:boolean);//collision case diagonale en haut droite
-var i,j :Integer;
-
-BEGIN
-	i:=trunc(T.x)+1; 
-	j:=trunc(T.y)-1;
-	if ((((T.x+epais)>i) or( T.y-epais<j)) and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx); 
+	j:=trunc(jou.t.posy)+1;
+	if ((jou.t.posy+epais>j) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
 
-procedure colliObsDBD(T:tank;c:tobst;var col:boolean);//collision case diagonale en bas droite
+procedure colliObsDHD(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en haut droite
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)+1; 
-	j:=trunc(T.y)+1;
-	if ((((T.x+epais)>i) or( T.y+epais>j)) and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx)+1; 
+	j:=trunc(jou.t.posx)-1;
+	if ((((jou.t.posx+epais)>i) or( jou.t.posx-epais<j)) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
 
-procedure colliObsDHG(T:tank;c:tobst;var col:boolean);//collision case diagonale en haut gauche
+procedure colliObsDBD(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en bas droite
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)-1; 
-	j:=trunc(T.y)-1;
-	if ((((T.x-epais)<i) or( T.y-epais<j)) and (c[i][j]='x')) then 
+	i:=trunc(jou.t.posx)+1; 
+	j:=trunc(jou.t.posy)+1;
+	if ((((jou.t.posx+epais)>i) or( jou.t.posy+epais>j)) and (c[i][j]='x')) then 
 		col:=True;
 	
 end;
 
-procedure colliObsDBG(T:tank;c:tobst;var col:boolean);//collision case diagonale en bas gauche
+procedure colliObsDHG(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en haut gauche
 var i,j :Integer;
 
 BEGIN
-	i:=trunc(T.x)-1; 
-	j:=trunc(T.y)+1;
-	if (((T.x-epais)<i) or( T.y+epais>j)) and (c[i][j]='x') then 
+	i:=trunc(jou.t.posx)-1; 
+	j:=trunc(jou.t.posy)-1;
+	if ((((jou.t.posx-epais)<i) or( jou.t.posy-epais<j)) and (c[i][j]='x')) then 
+		col:=True;
+	
+end;
+
+procedure colliObsDBG(jou:joueur;c:tobst;var col:boolean);//collision case diagonale en bas gauche
+var i,j :Integer;
+
+BEGIN
+	i:=trunc(jou.t.posx)-1; 
+	j:=trunc(jou.t.posy)+1;
+	if (((jou.t.posx-epais)<i) or(jou.t.posy+epais>j)) and (c[i][j]='x') then 
 		col:=True;
 	
 end;
