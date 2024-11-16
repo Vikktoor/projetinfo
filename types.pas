@@ -4,6 +4,8 @@ interface
 
 type Mun=record
 	nbRebonds,Vx,Vy,x,y:integer;
+	direction:Real;
+	b:boolean;
 end;
 type Tabmunition = array[1..5] of Mun;
 	
@@ -20,7 +22,7 @@ Type tank = record
 	
 
 
-type tobst= array[1..12,1..8] of string;
+type tobst= array[1..12,1..8] of char;
 type listecarte=array[1..3] of tobst;
 
 type carte = record
@@ -40,9 +42,10 @@ procedure iniT(var T:Ttank);
 
 procedure iniScore(var j1,j2:joueur);
 
-procedure inicarte1(var car:tobst);
-procedure inicarte2(var car:tobst);
-procedure inicarte3(var car:tobst);
+procedure iniMun(j:joueur);
+procedure iniobst1(var car:tobst);
+procedure iniobst2(var car:tobst);
+procedure iniobst3(var car:tobst);
 
 procedure inicartes(car1,car2,car3:tobst;var tabcar:listecarte);
 
@@ -72,7 +75,16 @@ begin
 	j2.score:=0;       //initialisation des scores
 end;
 
-procedure inicarte1(var car:tobst);// on initialise les obstacles des cartes
+procedure iniMun(j:joueur);
+var i:integer;
+begin
+	for i:=1 to 5 do
+		j.t.munitions[i].b:= false
+end;
+
+
+
+procedure iniobst1(var car:tobst);// on initialise les obstacles des cartes
 
 begin
 	car[1][1] := 'x';
@@ -98,7 +110,7 @@ begin
 		
 end;
 
-procedure inicarte2(var car:tobst);
+procedure iniobst2(var car:tobst);
 
 begin
 	car[2][2] := 'x';
@@ -127,7 +139,7 @@ begin
 	car[12][8] := 'x';
 end;
 
-procedure inicarte3(var car:tobst);
+procedure iniobst3(var car:tobst);
 
 begin
 	car[6][1] := 'x';
@@ -163,15 +175,13 @@ end;
 procedure inicartes(car1,car2,car3:tobst;var tabcar:listecarte);
 
 begin
-	inicarte1(car1);
-	inicarte2(car2);
-	inicarte3(car3);
+	iniobst1(car1);
+	iniobst2(car2);
+	iniobst3(car3);
 	tabcar[1]:=car1;
 	tabcar[2]:=car2;
 	tabcar[3]:=car3;
 end;
 end.
 
-
-end.
 
