@@ -21,7 +21,7 @@ Begin
 			writeln('nom :',T[i].nomt);
 			writeln('degats :',T[i].degats);
 			writeln('Pv :',T[i].Pv);
-			writeln('coefficient de vitesse :',T[i].coefVit:3:2);
+			writeln('coefficient de vitesse :',T[i].vitesse:3:2);
 		end;
 
 
@@ -35,7 +35,7 @@ Begin
 	j.t.nomT:=T[n].nomt;
 	j.t.degats:=T[n].degats;
 	j.t.Pv:=T[n].Pv;
-	j.t.coefVit:=T[n].coefVit;
+	j.t.vitesse:=T[n].vitesse;
 end;
 
 procedure menu(var j1,j2:joueur;Tabt:Ttank);
@@ -54,14 +54,14 @@ BEGIN
 	writeln(j1.nom,', votre tank s''appelle ',j1.t.nomT,'.');
 	writeln('Chaque boulet inflige ',j1.t.degats,' degats a votre adversaire.');
 	writeln('Votre tank à ' ,j1.t.Pv,' Pv.');
-	writeln('Votre tank à un coefficient de vitesse de ' ,j1.t.coefVit:3:2,' .');
+	writeln('Votre tank à un coefficient de vitesse de ' ,j1.t.vitesse:3:2,' .');
 	choixTank(Tabt,j2);
 	writeln();
 	writeln('Récap: ');
 	writeln(j2.nom,', votre tank s''appelle ',j2.t.nomT,'.');
 	writeln('Chaque boulet inflige ',j2.t.degats,' degats a votre adversaire.');
 	writeln('Votre tank à ' ,j2.t.Pv,' Pv.');
-	writeln('Votre tank à un coefficient de vitesse de ' ,j1.t.coefVit:3:2,' .');
+	writeln('Votre tank à un coefficient de vitesse de ' ,j1.t.vitesse:3:2,' .');
 	
 END;
 
