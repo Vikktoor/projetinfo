@@ -40,20 +40,35 @@ begin
 end;
 
 
-procedure avancer(var j:joueur;sens:integer);
-var anglerad:real;newx,newy:real;
+procedure avancer(var j: joueur; sens: integer);
+var
+  anglerad: real;
+  newx, newy: real;
 begin
-anglerad:=j.T.direction*Pi/180;
+  anglerad := j.T.direction * Pi / 180;
+  newx := j.T.vitesse * cos(anglerad) * sens;
+  newy := j.T.vitesse * sin(anglerad) * sens;
 
-newx:= j.T.vitesse * cos(anglerad)*sens;
-newy:= j.T.vitesse * sin(anglerad)*sens;
+  // Mettre à jour les positions 
+  j.T.posx := j.T.posx + newx;
+  j.T.posy := j.T.posy + newy;
 
-	j.T.posx:=j.T.posx+newx;
-	j.T.posy:=j.T.posy+newy;
+  // Limiter les coordonnées aux dimensions de l'écran
+  if j.T.posx < 0 then
+    j.T.posx := 0
+  else if j.T.posx > 1160 then // 1200 - largeur du tank (40 pixels)
+    j.T.posx := 1160;
 
-j.T.x := Trunc(j.T.posx);
-j.T.y := Trunc(j.T.posy);
+  if j.T.posy < 0 then
+    j.T.posy := 0
+  else if j.T.posy > 760 then // 800 - hauteur du tank (40 pixels)
+    j.T.posy := 760;
+
+  // Mettre à jour les coordonnées entières
+  j.T.x := Trunc(j.T.posx);
+  j.T.y := Trunc(j.T.posy);
 end;
+
 
 procedure TournerGauche(var j: joueur);
 begin
