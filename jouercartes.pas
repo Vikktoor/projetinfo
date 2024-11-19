@@ -16,11 +16,11 @@ var
    lastRotationTime1: UInt32;
     lastRotationTime2: UInt32;
   rotationDelay: UInt32 = 100;
-procedure jouercarte1(var j1,j2:joueur);
+procedure jouercarte3(var j1,j2:joueur);
 
 implementation	
 
-procedure jouercarte1(var j1,j2:joueur);
+procedure jouercarte3(var j1,j2:joueur);
 begin
 j1.t.vitesse := 1.2;
 j2.t.vitesse :=1.5;
@@ -33,15 +33,15 @@ lastRotationTime2 := SDL_GetTicks;
     then Halt;
 
   // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/sable.bmp');
+  sdlSurface1 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/sable.bmp');
   if sdlSurface1 = nil then
     Halt;
     
-  sdlSurface2 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/caisse1.bmp');
+  sdlSurface2 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/caisse1.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/caisse2.bmp');
+  sdlSurface3 := SDL_LoadBMP('//home/vhrab/Bureau/PROJET/Images/caisse2.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
@@ -58,23 +58,23 @@ lastRotationTime2 := SDL_GetTicks;
   if sdlTexture3 = nil then
     Halt;
     
-  sdlTexture4 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/troue1.png');
+  sdlTexture4 := IMG_LoadTexture(sdlRenderer, '//home/vhrab/Bureau/PROJET/Images/troue1.png');
   if sdlTexture4 = nil then 
 	Halt;
 
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/liane.png');
+  sdlTexture5 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/liane.png');
   if sdlTexture5 = nil then 
 	Halt;	
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/etoile.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/etoile.png');
   if sdlTexture6 = nil then 
 	Halt;
 	
-     sdlTexture7 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/coquillage.png');
+     sdlTexture7 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/coquillage.png');
   if sdlTexture7 = nil then 
 	Halt;
 	
-     sdlTexture8 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/coquillage2.png');
+     sdlTexture8 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/coquillage2.png');
   if sdlTexture8 = nil then 
 	Halt;
 
