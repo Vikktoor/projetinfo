@@ -2,16 +2,28 @@ unit mouvement;
 
 
 interface
-uses crt,math,types; 
+uses crt,math,types,SDL2, SDL2_image;
 
+var
+  sdlWindow1: PSDL_Window;
+  sdlRenderer: PSDL_Renderer;
+  sdlKeyboardState: PUInt8;
+  sdlSurface1, sdlSurface2, sdlSurface3: PSDL_Surface;
+  sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8: PSDL_Texture;
+  sdlRectangle: TSDL_Rect;
+  
+  i: integer;
+  event: TSDL_Event;
+  isRunning: Boolean;
+   lastRotationTime1: UInt32;
+    lastRotationTime2: UInt32;
+  rotationDelay: UInt32 = 100;
+T1,T2: tank;
 
-	
-var 
 touche:char;
 
-procedure InitialiserTank(var j: joueur; initX, initY: Integer; initAngle: Real);
-procedure affich(j1,j2:joueur);
 procedure avancer(var j:joueur;sens:integer);
+procedure InitialiserTank(var j: joueur; initX, initY: Integer; initAngle: Real);
 procedure TournerGauche(var j:joueur);
 procedure TournerDroite(var j:joueur);
 
@@ -27,51 +39,35 @@ begin
   j.t.direction:= initAngle;
 end;
 
-procedure affich(j1,j2:joueur); {actualiser la position du tank}
-begin
-	ClrScr;
-	GotoXY(j1.t.x,j1.t.y);
-	write('x');
-	GotoXY(j2.t.x,j2.t.y);
-	write('o');
-end;
 
 procedure avancer(var j:joueur;sens:integer);
 var anglerad:real;newx,newy:real;
 begin
-anglerad:=j.t.direction*Pi/180;
+anglerad:=j.T.direction*Pi/180;
 
-newx:= j.t.coefVit * cos(anglerad)*sens;
-newy:= j.t.coefVit * sin(anglerad);
+newx:= j.T.vitesse * cos(anglerad)*sens;
+newy:= j.T.vitesse * sin(anglerad)*sens;
 
-	j.t.posx:=j.t.posx+newx;
-	j.t.posy:=j.t.posy+newy;
+	j.T.posx:=j.T.posx+newx;
+	j.T.posy:=j.T.posy+newy;
 
-j.t.x := Trunc(j.t.posx);
-j.t.y := Trunc(j.t.posy);
-
-  if j.t.x < 1 
-  then j.t.x := 1;
-  if j.t.y < 1 
-  then j.t.y := 1;
-	if j.t.x>ScreenWidth  {ne pas sortir de l'écran}
-	then j.t.x:=ScreenWidth;
-	if j.t.y>ScreenHeight
-	then j.t.y:=ScreenHeight;
+j.T.x := Trunc(j.T.posx);
+j.T.y := Trunc(j.T.posy);
 end;
 
 procedure TournerGauche(var j: joueur);
 begin
-  j.t.direction := j.t.direction - 22.5;
-  if j.t.direction < 0 then
-    j.t.direction := j.t.direction + 360;
+  j.T.direction := j.T.direction - 22.5;
+  if j.T.direction < 0 then
+    j.T.direction := j.T.direction + 360;
 end;
 
 procedure TournerDroite(var j: joueur);
 begin
-  j.t.direction := j.t.direction + 22.5;
-  if j.t.direction >= 360 then
-    j.t.direction := j.t.direction - 360;
+  j.T.direction := j.T.direction + 22.5;
+  if j.T.direction >= 360 then
+    j.T.direction := j.T.direction - 360;
 end;
+
 
 end.
