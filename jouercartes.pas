@@ -1,6 +1,6 @@
 unit jouercartes;
 interface
-uses SDL2, SDL2_image,math,types,mouvement;
+uses SDL2, SDL2_image,math,types,mouvement,tirs;
 
 var
   sdlWindow1: PSDL_Window;
@@ -12,8 +12,11 @@ var
   i: integer;
   event: TSDL_Event;
   isRunning: Boolean;
-  astRotationTime1: UInt32;
+  lastRotationTime1: UInt32;
   lastRotationTime2: UInt32;
+  lastshotTime1: UInt32;
+  lastshotTime2: UInt32;
+  shotdelay: UInt32 = 500;
   rotationDelay: UInt32 = 100;
   
 procedure jouercarte1(var j1,j2:joueur);
@@ -25,9 +28,11 @@ procedure jouercarte3(var j1,j2:joueur);
 implementation	
 
 procedure jouercarte1(var j1,j2: joueur);
-
+var c:tobst;
+lc:listecarte;
 begin
-
+inicartes(lc);
+c:=lc[1];
 j1.t.vitesse := 1.2;
 j2.t.vitesse :=1.5;
 lastRotationTime1 := SDL_GetTicks;
@@ -40,15 +45,15 @@ lastRotationTime2 := SDL_GetTicks;
     then Halt;
     
   // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('./Images/glace2.bmp');
+  sdlSurface1 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/glace2.bmp');
   if sdlSurface1 = nil then
     Halt;
     
-  sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
+  sdlSurface2 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/caisse1.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('./Images/blocglace.bmp');
+  sdlSurface3 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/blocglace.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	    
@@ -62,7 +67,7 @@ lastRotationTime2 := SDL_GetTicks;
   if sdlTexture2 = nil then
     Halt;
 
-  sdlTexture3 := IMG_LoadTexture(sdlRenderer, './Images/flocon.png');
+  sdlTexture3 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/flocon.png');
   if sdlTexture3 = nil then 
 	Halt;
 
@@ -70,15 +75,15 @@ lastRotationTime2 := SDL_GetTicks;
   if sdlTexture4 = nil then
     Halt;
     
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/Boule_de_neige.png');
+  sdlTexture5 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/Boule_de_neige.png');
   if sdlTexture5 = nil then 
 	Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile_glace2.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/etoile_glace2.png');
   if sdlTexture6 = nil then 
 	Halt;   
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/baton_glace.png');
+  sdlTexture7 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/baton_glace.png');
   if sdlTexture7 = nil then 
 	Halt;   
 	 
@@ -357,8 +362,8 @@ InitialiserTank(j2, 500, 300, 180);
     // Mettre à jour la position du rectangle rouge
   
 
-    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1);
-    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1);
+    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,c);
+    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,c);
 
     // Appliquer la nouvelle position au rectangle rouge
   
@@ -378,8 +383,8 @@ InitialiserTank(j2, 500, 300, 180);
       end;
       end;
        // Contrôles du tank T2
-    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1); // Avancer
-    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1); // Reculer
+    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1,c); // Avancer
+    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,c); // Reculer
 
     if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
       if SDL_GetTicks - lastRotationTime2 > rotationDelay then
@@ -394,6 +399,80 @@ InitialiserTank(j2, 500, 300, 180);
         TournerGauche(j2);
         lastRotationTime2 := SDL_GetTicks;
       end;
+      
+            
+      // tirer les munitions T1
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j1.t.munitions[i].visible then
+    begin
+      tirer(j1, i); 
+          lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+
+
+
+avancerballe(j1);
+
+
+      
+      // affichtirs T1
+for i:=1 to 5 do
+begin
+  if j1.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j1.t.munitions[i].x;
+    sdlRectangle.y :=j1.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
+ 
+ // tirer les munitions T2
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j2.t.munitions[i].visible then
+    begin
+      tirer(j2, i); 
+          lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+avancerballe(j2);
+
+
+      
+      // affichtirs T2
+for i:=1 to 5 do
+begin
+  if j2.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j2.t.munitions[i].x;
+    sdlRectangle.y :=j2.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
      // Affichage des tanks
     // Tank T1 rouge
     sdlRectangle.x := j1.t.x;
@@ -440,7 +519,11 @@ end;
 	  
 
 procedure jouercarte2(var j1,j2: joueur);
+var c:tobst;
+lc:listecarte;
 begin
+inicartes(lc);
+c:=lc[2];
 j1.t.vitesse := 1.2;
 j2.t.vitesse :=1.5;
 lastRotationTime1 := SDL_GetTicks;
@@ -455,23 +538,23 @@ lastRotationTime2 := SDL_GetTicks;
     
   // Creer des surfaces à partir de fichiers d'images
   
-  sdlSurface1 := SDL_LoadBMP('./Images/herbe.bmp');
+  sdlSurface1 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/herbe.bmp');
   if sdlSurface1 = nil then
     Halt;
 
-  sdlSurface2 := SDL_LoadBMP('./Images/pierre_craque.bmp');
+  sdlSurface2 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/pierre_craque.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('./Images/pierre_mossy.bmp');
+  sdlSurface3 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/pierre_mossy.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
-  sdlSurface4 := SDL_LoadBMP('./Images/or.bmp');
+  sdlSurface4 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/or.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
-  sdlSurface5 := SDL_LoadBMP('./Images/pierre_gris.bmp');
+  sdlSurface5 := SDL_LoadBMP('/home/vhrab/Bureau/PROJET/Images/pierre_gris.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
@@ -497,15 +580,15 @@ lastRotationTime2 := SDL_GetTicks;
   if sdlTexture5 = nil then
     Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/liane.png');
   if sdlTexture6 = nil then 
 	Halt;
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/trefle.png');
+  sdlTexture7 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/trefle.png');
   if sdlTexture7 = nil then 
 	Halt;	
 
-  sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/fleur.png');
+  sdlTexture8 := IMG_LoadTexture(sdlRenderer, '/home/vhrab/Bureau/PROJET/Images/fleur.png');
   if sdlTexture8 = nil then 
 	Halt;
 	
@@ -844,8 +927,8 @@ InitialiserTank(j2, 500, 300, 180);
     // Mettre à jour la position du rectangle rouge
   
 
-    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1);
-    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1);
+    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,c);
+    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,c);
 
     // Appliquer la nouvelle position au rectangle rouge
   
@@ -865,8 +948,8 @@ InitialiserTank(j2, 500, 300, 180);
       end;
       end;
        // Contrôles du tank T2
-    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1); // Avancer
-    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1); // Reculer
+    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1,c); // Avancer
+    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,c); // Reculer
 
     if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
       if SDL_GetTicks - lastRotationTime2 > rotationDelay then
@@ -881,6 +964,80 @@ InitialiserTank(j2, 500, 300, 180);
         TournerGauche(j2);
         lastRotationTime2 := SDL_GetTicks;
       end;
+      
+            
+      // tirer les munitions T1
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j1.t.munitions[i].visible then
+    begin
+      tirer(j1, i); 
+          lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+
+
+
+avancerballe(j1);
+
+
+      
+      // affichtirs T1
+for i:=1 to 5 do
+begin
+  if j1.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j1.t.munitions[i].x;
+    sdlRectangle.y :=j1.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
+ 
+ // tirer les munitions T2
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j2.t.munitions[i].visible then
+    begin
+      tirer(j2, i); 
+          lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+avancerballe(j2);
+
+
+      
+      // affichtirs T2
+for i:=1 to 5 do
+begin
+  if j2.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j2.t.munitions[i].x;
+    sdlRectangle.y :=j2.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
      // Affichage des tanks
     // Tank T1 rouge
     sdlRectangle.x := j1.t.x;
@@ -929,11 +1086,18 @@ InitialiserTank(j2, 500, 300, 180);
 end;
 
 procedure jouercarte3(var j1,j2:joueur);
+var c:tobst;
+lc : listecarte;
 begin
+inicartes(lc);
+c:=lc[3];
 j1.t.vitesse := 1.2;
 j2.t.vitesse :=1.5;
 lastRotationTime1 := SDL_GetTicks;
 lastRotationTime2 := SDL_GetTicks;
+lastshotTime1 := SDL_GetTicks;
+lastshotTime2 := SDL_GetTicks;
+
   // Initialisation de la video du sous-système
   if SDL_Init(SDL_INIT_VIDEO) < 0 then Halt;
 
@@ -941,15 +1105,15 @@ lastRotationTime2 := SDL_GetTicks;
     then Halt;
 
   // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('./Images/sable.bmp');
+  sdlSurface1 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/sable.bmp');
   if sdlSurface1 = nil then
     Halt;
     
-  sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
+  sdlSurface2 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/caisse1.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('./Images/caisse2.bmp');
+  sdlSurface3 := SDL_LoadBMP('/home/jbeuzelin/Images/projetinfo/Images/caisse2.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
@@ -966,28 +1130,28 @@ lastRotationTime2 := SDL_GetTicks;
   if sdlTexture3 = nil then
     Halt;
     
-  sdlTexture4 := IMG_LoadTexture(sdlRenderer, './Images/troue1.png');
+  sdlTexture4 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/troue1.png');
   if sdlTexture4 = nil then 
 	Halt;
 
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
+  sdlTexture5 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/liane.png');
   if sdlTexture5 = nil then 
 	Halt;	
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/etoile.png');
   if sdlTexture6 = nil then 
 	Halt;
 	
-     sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/coquillage.png');
+     sdlTexture7 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/coquillage.png');
   if sdlTexture7 = nil then 
 	Halt;
 	
-     sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/coquillage2.png');
+     sdlTexture8 := IMG_LoadTexture(sdlRenderer, '/home/jbeuzelin/Images/projetinfo/Images/coquillage2.png');
   if sdlTexture8 = nil then 
 	Halt;
 
-InitialiserTank(j1, 250, 100, 0);
-InitialiserTank(j2, 500, 300, 180);
+InitialiserTank(j1, 250, 50, 0);
+InitialiserTank(j2, 500, 250, 180);
 
   // Boucle principale
   isRunning := True;
@@ -1292,8 +1456,8 @@ InitialiserTank(j2, 500, 300, 180);
     // Mettre à jour la position du rectangle rouge
   
 
-    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1);
-    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1);
+    if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,c);
+    if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,c);
 
     // Appliquer la nouvelle position au rectangle rouge
   
@@ -1313,8 +1477,8 @@ InitialiserTank(j2, 500, 300, 180);
       end;
       end;
        // Contrôles du tank T2
-    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1); // Avancer
-    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1); // Reculer
+    if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1,c); // Avancer
+    if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,c); // Reculer
 
     if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
       if SDL_GetTicks - lastRotationTime2 > rotationDelay then
@@ -1329,6 +1493,81 @@ InitialiserTank(j2, 500, 300, 180);
         TournerGauche(j2);
         lastRotationTime2 := SDL_GetTicks;
       end;
+      
+      // tirer les munitions T1
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j1.t.munitions[i].visible then
+    begin
+      tirer(j1, i); 
+          lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+
+
+
+avancerballe(j1);
+
+
+      
+      // affichtirs T1
+for i:=1 to 5 do
+begin
+  if j1.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j1.t.munitions[i].x;
+    sdlRectangle.y :=j1.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
+ 
+ // tirer les munitions T2
+      
+iniMun(j1);
+if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
+begin
+  for i := 1 to 5 do
+  begin
+    // Trouver une balle inactive et la tirer
+    if not j2.t.munitions[i].visible then
+    begin
+      tirer(j2, i); 
+          lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+      Break; // On sort après avoir activé une balle
+    end;
+  end;
+end;
+avancerballe(j2);
+
+
+      
+      // affichtirs T2
+for i:=1 to 5 do
+begin
+  if j2.t.munitions[i].visible then
+  begin
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    sdlRectangle.x :=j2.t.munitions[i].x;
+    sdlRectangle.y :=j2.t.munitions[i].y;
+    sdlRectangle.w := 10;
+    sdlRectangle.h := 10;
+    SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
+    end;
+  end;
+
+
+
      // Affichage des tanks
     // Tank T1 rouge
     sdlRectangle.x := j1.t.x;
