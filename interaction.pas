@@ -32,6 +32,11 @@ var n :integer;
 Begin
 	writeln(j.nom,', quel tank choisissez vous ? ');
 	readln(n);
+	while (n<1) or (n>3) do
+		begin
+			writeln('Veuillez entrer un nombre compris entre 1 et 3');
+			readln(n);
+		end;
 	j.t.nomT:=T[n].nomt;
 	j.t.degats:=T[n].degats;
 	j.t.Pv:=T[n].Pv;
