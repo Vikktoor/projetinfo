@@ -8,8 +8,8 @@ var  SDL_Rect: TSDL_Rect;
 
 type Mun=record
 	nbRebonds,Vx,Vy,x,y:integer;
-	direction:Real;
-	b:boolean;
+	direction,posx,posy,vitesse:Real;
+	visible:boolean;
 end;
 type Tabmunition = array[1..5] of Mun;
 	
@@ -26,8 +26,9 @@ Type tank = record
 	
 
 
-type tobst= array[1..25] of TSDL_Rect;
-type listecarte=array[1..3] of tobst;
+type tobst= array[1..30] of TSDL_Rect;
+
+
 
 type carte = record
 	Largeur,hauteur: integer;
@@ -50,7 +51,7 @@ procedure iniMun(j:joueur);
 procedure iniobst1(var car:tobst);
 
 
-procedure inicartes(car1,car2,car3:tobst;var tabcar:listecarte);
+
 
 implementation
 
@@ -82,12 +83,12 @@ procedure iniMun(j:joueur);
 var i:integer;
 begin
 	for i:=1 to 5 do
-		j.t.munitions[i].b:= false
+		j.t.munitions[i].visible:= false
 end;
 
 
 
-procedure iniobst1(var car:tobst);// on initialise les obstacles des cartes
+procedure iniobst1(var car:tobst);// on initialise les obstacles de la carte 1
 var i:integer;
 begin
 	for i:=1 to 24 do
@@ -95,7 +96,6 @@ begin
 			car[i].w := 100;
 			car[i].h := 100;
 		end;
-	car[1]:=SDL_Rect(0,0,100,100);
 	car[1].x:=0;
 	car[1].y:=0;
 	car[2].x:=100;
@@ -148,16 +148,138 @@ begin
 		
 end;
 
-
-
-
-procedure inicartes(car1,car2,car3:tobst;var tabcar:listecarte);
-
+procedure iniobst2(var car:tobst);// on initialise les obstacles de la carte 2
+var i:integer;
 begin
-	iniobst1(car1);
-	
-	tabcar[1]:=car1;
-	tabcar[2]:=car2;
-	tabcar[3]:=car3;
+	for i:=1 to 24 do
+		begin
+			car[i].w := 100;
+			car[i].h := 100;
+		end;
+	car[1].x:=100;
+	car[1].y:=100;
+	car[2].x:=200;
+	car[2].y:=100;
+	car[3].x:=200;
+	car[3].y:=200;
+	car[4].x:=300;
+	car[4].y:=200;
+	car[5].x:=400;
+	car[5].y:=200;
+	car[6].x:=500;
+	car[6].y:=200;
+	car[7].x:=500;
+	car[7].y:=100;
+	car[8].x:=1000;
+	car[8].y:=100;
+	car[9].x:=1000;
+	car[9].y:=200;
+	car[10].x:=900;
+	car[10].y:=300;
+	car[11].x:=900;
+	car[11].y:=200;
+	car[12].x:=100;
+	car[12].y:=400;
+	car[13].x:=100;
+	car[13].y:=500;
+	car[14].x:=100;
+	car[14].y:=600;
+	car[15].x:=200;
+	car[15].y:=600;
+	car[16].x:=400;
+	car[16].y:=400;
+	car[17].x:=500;
+	car[17].y:=400;
+	car[18].x:=600;
+	car[18].y:=400;
+	car[19].x:=700;
+	car[19].y:=400;
+	car[20].x:=700;
+	car[20].y:=500;
+	car[21].x:=1000;
+	car[21].y:=1000;
+	car[22].x:=1100;
+	car[22].y:=1000;
+	car[23].x:=1100;
+	car[23].y:=1100; 
+	car[24].x:=1000;
+	car[24].y:=1100;
+		
 end;
+
+procedure iniobst3(var car:tobst);// on initialise les obstacles de la carte 3
+var i:integer;
+begin
+	for i:=1 to 24 do
+		begin
+			car[i].w := 100;
+			car[i].h := 100;
+		end;
+	car[1].x:=500;
+	car[1].y:=0;
+	car[2].x:=600;
+	car[2].y:=0;
+	car[3].x:=900;
+	car[3].y:=0;
+	car[4].x:=900;
+	car[4].y:=100;
+	
+	car[5].x:=100;
+	car[5].y:=100;
+	car[6].x:=200;
+	car[6].y:=100;
+	car[7].x:=300;
+	car[7].y:=100;
+	car[8].x:=900;
+	car[8].y:=100;
+	
+	car[9].x:=100;
+	car[9].y:=200;
+	car[10].x:=200;
+	car[10].y:=200;
+	car[11].x:=600;
+	car[11].y:=200;
+	
+	car[12].x:=500;
+	car[12].y:=300;
+	car[13].x:=600;
+	car[13].y:=300;
+	car[14].x:=900;
+	car[14].y:=300;
+	car[15].x:=1000;
+	car[15].y:=300;
+	
+	car[16].x:=100;
+	car[16].y:=400;
+	car[17].x:=200;
+	car[17].y:=400;
+	car[18].x:=300;
+	car[18].y:=400;
+	car[19].x:=400;
+	car[19].y:=400;
+	car[20].x:=500;
+	car[20].y:=400;
+	
+	car[21].x:=0;
+	car[21].y:=600;
+	car[22].x:=100;
+	car[22].y:=600;
+	car[23].x:=400;
+	car[23].y:=600; 
+	car[24].x:=500;
+	car[24].y:=600;
+	car[25].x:=600;
+	car[25].y:=600;
+	car[26].x:=700;
+	car[26].y:=600;
+	car[27].x:=800;
+	car[27].y:=600;
+	car[28].x:=900;
+	car[28].y:=600;
+	
+	car[29].x:=0;
+	car[29].y:=700;
+		
+end;
+
 end.
