@@ -29,15 +29,15 @@ begin
     then Halt;
     
   // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\glace2.bmp');
+  sdlSurface1 := SDL_LoadBMP('./Images/glace2.bmp');
   if sdlSurface1 = nil then
     Halt;
     
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
+  sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\blocglace.bmp');
+  sdlSurface3 := SDL_LoadBMP('./Images/blocglace.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	    
@@ -51,7 +51,7 @@ begin
   if sdlTexture2 = nil then
     Halt;
 
-  sdlTexture3 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\flocon.png');
+  sdlTexture3 := IMG_LoadTexture(sdlRenderer, './Images/flocon.png');
   if sdlTexture3 = nil then 
 	Halt;
 
@@ -59,15 +59,15 @@ begin
   if sdlTexture4 = nil then
     Halt;
     
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\boule_de_neige.png');
+  sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/Boule_de_neige.png');
   if sdlTexture5 = nil then 
 	Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\etoile_glace2.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile_glace2.png');
   if sdlTexture6 = nil then 
 	Halt;   
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\baton_glace.png');
+  sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/baton_glace.png');
   if sdlTexture7 = nil then 
 	Halt;   
 	 
@@ -384,23 +384,23 @@ begin
     
   // Creer des surfaces à partir de fichiers d'images
   
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\herbe.bmp');
+  sdlSurface1 := SDL_LoadBMP('./Images/herbe.bmp');
   if sdlSurface1 = nil then
     Halt;
 
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_craque.bmp');
+  sdlSurface2 := SDL_LoadBMP('./Images/pierre_craque.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_mossy.bmp');
+  sdlSurface3 := SDL_LoadBMP('./Images/pierre_mossy.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
-  sdlSurface4 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\or.bmp');
+  sdlSurface4 := SDL_LoadBMP('./Images/or.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
-  sdlSurface5 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_gris.bmp');
+  sdlSurface5 := SDL_LoadBMP('./Images/pierre_gris.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
@@ -426,15 +426,15 @@ begin
   if sdlTexture5 = nil then
     Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\liane.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
   if sdlTexture6 = nil then 
 	Halt;
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\trefle.png');
+  sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/trefle.png');
   if sdlTexture7 = nil then 
 	Halt;	
 
-  sdlTexture8 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\fleur.png');
+  sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/fleur.png');
   if sdlTexture8 = nil then 
 	Halt;
   //fond
@@ -811,15 +811,15 @@ begin
     then Halt;
 
   // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\sable.bmp');
+  sdlSurface1 := SDL_LoadBMP('./Images/sable.bmp');
   if sdlSurface1 = nil then
     Halt;
     
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
+  sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
   if sdlSurface2 = nil then
 	Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse2.bmp');
+  sdlSurface3 := SDL_LoadBMP('./Images/caisse2.bmp');
   if sdlSurface2 = nil then
 	Halt;
 
@@ -836,23 +836,23 @@ begin
   if sdlTexture3 = nil then
     Halt;
     
-  sdlTexture4 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\troue1.png');
+  sdlTexture4 := IMG_LoadTexture(sdlRenderer, './Images/troue1.png');
   if sdlTexture4 = nil then 
 	Halt;
 
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\liane.png');
+  sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
   if sdlTexture5 = nil then 
 	Halt;	
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\etoile.png');
+  sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile.png');
   if sdlTexture6 = nil then 
 	Halt;
 	
-     sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\coquillage.png');
+     sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/coquillage.png');
   if sdlTexture7 = nil then 
 	Halt;
 	
-     sdlTexture8 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\coquillage2.png');
+     sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/coquillage2.png');
   if sdlTexture8 = nil then 
 	Halt;
 	
@@ -1182,4 +1182,3 @@ end;
 
 
 end.
-
