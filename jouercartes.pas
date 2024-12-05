@@ -498,7 +498,7 @@ end;
 
 
 
-avancerballe(j1);
+avancerballe(j1,car1);
 
 
       
@@ -533,7 +533,7 @@ begin
     end;
   end;
 end;
-avancerballe(j2);
+avancerballe(j2,car1);
 
 
       
@@ -1123,7 +1123,7 @@ end;
 
 
 
-avancerballe(j1);
+avancerballe(j1,car2);
 
 
       
@@ -1158,7 +1158,7 @@ begin
     end;
   end;
 end;
-avancerballe(j2);
+avancerballe(j2,car2);
 
 
       
@@ -1705,7 +1705,7 @@ end;
 
 
 
-avancerballe(j1);
+avancerballe(j1,car3);
 
 
       
@@ -1740,7 +1740,7 @@ begin
     end;
   end;
 end;
-avancerballe(j2);
+avancerballe(j2,car3);
 
 
       
