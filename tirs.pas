@@ -148,7 +148,10 @@ begin
                 j.t.munitions[i].x := obstacles[obstacleIdx].x - newRect.w;
                 j.t.munitions[i].nbRebonds:=j.t.munitions[i].nbRebonds + 1;
                 if j.t.munitions[i].nbRebonds = 5 then
-					j.t.munitions[i].visible:=False
+                begin
+					j.t.munitions[i].visible:=False;
+					j.t.munitions[i].nbRebonds:= 0;
+				end;
               end
               else if j.t.munitions[i].x >= obstacles[obstacleIdx].x + obstacles[obstacleIdx].w then
               begin
@@ -157,7 +160,10 @@ begin
                 j.t.munitions[i].x := obstacles[obstacleIdx].x + obstacles[obstacleIdx].w;
                 j.t.munitions[i].nbRebonds:=j.t.munitions[i].nbRebonds + 1;
                 if j.t.munitions[i].nbRebonds = 5 then
-					j.t.munitions[i].visible:=False
+				begin
+					j.t.munitions[i].visible:=False;
+					j.t.munitions[i].nbRebonds := 0;
+				end;
               end;
             end;
             
@@ -173,7 +179,10 @@ begin
                 j.t.munitions[i].y := obstacles[obstacleIdx].y - newRect.h;
                 j.t.munitions[i].nbRebonds:=j.t.munitions[i].nbRebonds + 1;
                 if j.t.munitions[i].nbRebonds = 5 then
-					j.t.munitions[i].visible:=False
+                begin
+					j.t.munitions[i].visible:=False;
+					j.t.munitions[i].nbRebonds := 0;
+				end;
               end
               else if j.t.munitions[i].y >= obstacles[obstacleIdx].y + obstacles[obstacleIdx].h then
               begin
@@ -182,7 +191,10 @@ begin
                 j.t.munitions[i].y := obstacles[obstacleIdx].y + obstacles[obstacleIdx].h;
                 j.t.munitions[i].nbRebonds:=j.t.munitions[i].nbRebonds + 1;
                 if j.t.munitions[i].nbRebonds = 5 then
-					j.t.munitions[i].visible:=False
+                begin
+					j.t.munitions[i].visible:=False;
+					j.t.munitions[i].nbRebonds := 0;
+				end;
               end
               else
               begin
