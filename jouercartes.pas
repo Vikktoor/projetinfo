@@ -466,8 +466,8 @@ chargerTexturesT3(sdlRenderer);
 
 j1.t.visible:=true;
 j2.t.visible:=true;
-gererCollision(j2.t, j1); // Vérifie si T1 touche T2
-gererCollision(j1.t, j2); // Vérifie si T2 touche T1
+gererCollision(j2, j1); // Vérifie si T1 touche T2
+gererCollision(j1, j2); // Vérifie si T2 touche T1
 
       
     // Afficher le rendu final
@@ -1090,9 +1090,8 @@ chargerTexturesT3(sdlRenderer);
       
 j1.t.visible:=true;
 j2.t.visible:=true;
-gererCollision(j2.t, j1); // Vérifie si T1 touche T2
-gererCollision(j1.t, j2); // Vérifie si T2 touche T1
-
+gererCollision(j2, j1); // Vérifie si T1 touche T2
+gererCollision(j1, j2); // Vérifie si T2 touche T1
       
     // Afficher le rendu final
     
@@ -1675,8 +1674,8 @@ chargerTexturesT3(sdlRenderer);
 
 j1.t.visible:=true;
 j2.t.visible:=true;
-gererCollision(j2.t, j1); // Vérifie si T1 touche T2
-gererCollision(j1.t, j2); // Vérifie si T2 touche T1
+gererCollision(j2, j1); // Vérifie si T1 touche T2
+gererCollision(j1, j2); // Vérifie si T2 touche T1
 	
 	// Afficher le rendu final
     
