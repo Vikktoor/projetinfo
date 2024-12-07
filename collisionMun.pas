@@ -1,10 +1,10 @@
 unit collisionMun;
 
 interface
-uses crt,math,types,SDL2, SDL2_image;
+uses crt,math,types,SDL2, SDL2_image,mouvement;
 
 function collision(t: tank; m: Mun): boolean;
-procedure gererCollision(var t: tank; var j: joueur);
+procedure gererCollision(var jvict: joueur; var jatt: joueur);
 
 implementation
 function collision(t: tank; m: Mun): boolean;
@@ -18,18 +18,36 @@ begin
   end;
 end;
 
-procedure gererCollision(var t: tank; var j: joueur);
+procedure gererCollision(var jvict: joueur; var jatt: joueur);//jvict pour joueur prenant degat et jatt pour le joueuer attaquant 
 var
   i: integer;
 begin
   for i := 1 to 5 do
   begin
-    if collision(t, j.t.munitions[i]) then
-    begin
-      t.visible := False; // Désactiver le tank
-      j.t.munitions[i].visible := False; // Désactiver la balle
+    if collision(jvict.t, jatt.t.munitions[i]) then
+		begin
+			jvict.t.Pv:=jvict.t.Pv-jatt.t.degats;
+			writeln(jvict.t.pv);
+			jatt.t.munitions[i].visible := False; // Désactiver la balle
+		end;
+	
+	if jvict.t.pv<=0 then
+		begin
+			jvict.t.visible := False; // Désactiver le tank
+			writeln('tank desactive');
+			delay(2000);
+			case jvict.t.nomt of 
+				'Vic' : jvict.t.Pv:=150;
+				'JM' : jvict.t.Pv:=110;
+				'Tom' : jvict.t.Pv:=60;
+			end;
+			
+			InitialiserTank(jvict, 20, 350, 0);
+			InitialiserTank(jatt, 920, 720, 180)
+		end;
+	
       Break; // Sortir après avoir géré une collision
-    end;
+    
   end;
 end;
 end.
