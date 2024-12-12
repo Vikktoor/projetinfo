@@ -44,9 +44,9 @@ begin
 			
 			InitialiserTank(jvict, 20, 350, 0);
 			InitialiserTank(jatt, 920, 720, 180)
+   			jatt.score:=jatt.score+1;
 		end;
-	
-      Break; // Sortir après avoir géré une collision
+
     
   end;
 end;
