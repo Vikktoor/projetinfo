@@ -20,21 +20,22 @@ end;
 
 procedure gererCollision(var jvict: joueur; var jatt: joueur);//jvict pour joueur prenant degat et jatt pour le joueuer attaquant 
 var
-  i: integer;
+  i,j: integer;
 begin
   for i := 1 to 5 do
   begin
     if collision(jvict.t, jatt.t.munitions[i]) then
 		begin
 			jvict.t.Pv:=jvict.t.Pv-jatt.t.degats;
-			writeln(jvict.t.pv);
+   			writeln('===================================================');			
+			writeln('PV ',jvict.nom,': ',jvict.t.pv);
+			writeln('PV ',jatt.nom,': ',jatt.t.pv);
 			jatt.t.munitions[i].visible := False; // Désactiver la balle
 		end;
 	
 	if jvict.t.pv<=0 then
 		begin
 			jvict.t.visible := False; // Désactiver le tank
-			writeln('tank desactive');
 			delay(2000);
 			case jvict.t.nomt of 
 				'Vic' : jvict.t.Pv:=150;
@@ -42,9 +43,18 @@ begin
 				'Tom' : jvict.t.Pv:=60;
 			end;
 			
+			for j:=1 to 5  do
+			begin
+				jvict.t.munitions[j].visible:=False;
+				jatt.t.munitions[j].visible:=False;
+			end;
+			
 			InitialiserTank(jvict, 20, 350, 0);
-			InitialiserTank(jatt, 920, 720, 180)
+			InitialiserTank(jatt, 920, 720, 180);
    			jatt.score:=jatt.score+1;
+   			writeln('===================================================');
+   			writeln('Score ',jatt.nom,' :' ,jatt.score);
+   			writeln('Score ',jvict.nom,' :' ,jvict.score);
 		end;
 
     
