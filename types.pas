@@ -67,16 +67,16 @@ procedure iniT(var T:Ttank);
 BEGIN
 	T[1].nomT:='Vic';
 	T[1].degats:=50;
-	T[1].Pv:=150;
-	T[1].Vitesse:=0.5;
+	T[1].Pv:=200;
+	T[1].Vitesse:=2;
 	T[2].nomT:='JM';
-	T[2].degats:=80;
-	T[2].Pv:=110;
-	T[2].Vitesse:=0.75;  //initialisation des valeurs des tanks
+	T[2].degats:=70;
+	T[2].Pv:=150;
+	T[2].Vitesse:=2.25;  //initialisation des valeurs des tanks
 	T[3].nomT:='Tom';
-	T[3].degats:=100;
-	T[3].Pv:=60;
-	T[3].Vitesse:=1.0;
+	T[3].degats:=90;
+	T[3].Pv:=100;
+	T[3].Vitesse:=2.5;
 END;
 
 procedure iniScore(var j1,j2:joueur);
