@@ -10,7 +10,6 @@ begin
 
 iniT(Tabt);
 menu(j1,j2,Tabt);
-
 choix:=0;
 
 while choix <> 1 do
@@ -18,10 +17,12 @@ while choix <> 1 do
 begin
 
 	writeln('Quelle carte voulez-vous afficher ?');
+	writeln('');
 	writeln('1: carte neige');
 	writeln('2: carte jungle');
 	writeln('3: carte sable');
 	readln(n);
+	writeln('');
 	while (n<1) or (n>3) do
 		begin
 			writeln('Veuillez entrer un nombre compris entre 1 et 3');
@@ -41,7 +42,7 @@ begin
 					readln(choix);
 				end;
 			if choix = 1 then
-				jouercarte1(j1,j2);	
+				jouercarte1(j1,j2);
 		end;
 	if n=2 then
 		begin
