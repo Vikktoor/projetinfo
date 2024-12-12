@@ -94,8 +94,8 @@ begin
   anglerad := j.t.direction * Pi / 180;
   
   // Calcule la position future du tank
-  newRect.x := Round(j.t.posx + sens * j.t.Vitesse * Cos(anglerad));
-  newRect.y := Round(j.t.posy + sens * j.t.Vitesse * Sin(anglerad));
+  newRect.x := Round(j.t.posx + sens * j.t.vitesse * Cos(anglerad));
+  newRect.y := Round(j.t.posy + sens * j.t.vitesse * Sin(anglerad));
   newRect.w := 60;  // Largeur du tank
   newRect.h := 60;  // Hauteur du tank
 
