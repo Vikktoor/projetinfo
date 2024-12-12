@@ -7,14 +7,16 @@ const
   SURFACE_HEIGHT = 120;
 
 var
-  sdlWindow1: PSDL_Window;
-  sdlRenderer: PSDL_Renderer;
-  sdlTexture1, sdlTexture2,sdlTexture3,sdlTexture4,sdlTexture5,sdlTexture6: PSDL_Texture;
-  sdlRectangle: TSDL_Rect;
-  sdlColor1, sdlColor2: TSDL_Color;
-  ttfFont: PTTF_Font;
-  sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4: PSDL_Surface;
-
+	sdlWindow1: PSDL_Window;
+    sdlRenderer: PSDL_Renderer;
+    sdlTexture1, sdlTexture2,sdlTexture3,sdlTexture4,sdlTexture5,sdlTexture6,sdlTexture7,sdlTexture8: PSDL_Texture;
+    sdlRectangle: TSDL_Rect;
+    sdlColor1, sdlColor2: TSDL_Color;
+    ttfFont: PTTF_Font;
+    nomJ1, nomJ2, scoreJ1, scoreJ2,pvJ1,pvJ2: PSDL_Surface;
+    LT:Ttank;
+    i,j:integer;
+	
 procedure afficTank(T: Ttank);
 
 procedure choixTank(T :Ttank;var j: joueur);
@@ -90,6 +92,7 @@ END;
 
 procedure AffichScore(var j1, j2: joueur);
 begin
+	iniT(LT);
     // Initialisation de SDL
     if SDL_Init(SDL_INIT_VIDEO) < 0 then
 		Halt;
@@ -103,7 +106,7 @@ begin
   
   
 	// Définition des couleurs par valeurs RGB pour la police 1 et 2
-	sdlColor1.r := 255; sdlColor1.g := 255; sdlColor1.b :=255;
+	sdlColor1.r := 255; sdlColor1.g := 255; sdlColor1.b :=255;//blanc
 	sdlColor2.r := 0; sdlColor2.g := 0; sdlColor2.b :=0;
   
 	// Création de la fenêtre et du renderer 
@@ -119,49 +122,152 @@ begin
  
 	// Transformation du texte en surface
 	case j1.nom of
-	'JM' :sdlSurface1 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J1 par defaut 
-	'Tom':sdlSurface1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	'Victor':sdlSurface1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	else sdlSurface1 := TTF_RenderText_Blended(ttfFont, 'J1', sdlColor1);
+	'JM' :nomJ1 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J1 par defaut 
+	'Tom':nomJ1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	'Victor':nomJ1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	else nomJ1 := TTF_RenderText_Blended(ttfFont, 'J1', sdlColor1);
 	end;
-	if sdlSurface1 = nil then
+	if nomJ1 = nil then
 		Halt;
 		
 	case j2.nom of
-	'JM' :sdlSurface2 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J2 par defaut
-	'Tom':sdlSurface2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	'Victor':sdlSurface2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	else sdlSurface2 := TTF_RenderText_Blended(ttfFont, 'J2', sdlColor1);
+	'JM' :nomJ2 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J2 par defaut
+	'Tom':nomJ2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	'Victor':nomJ2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	else nomJ2 := TTF_RenderText_Blended(ttfFont, 'J2', sdlColor1);
 	end;
-	if sdlSurface2 = nil then
+	if nomJ2 = nil then
 		Halt;
-		
 	case j1.score of
-	1:sdlSurface3 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
-	2:sdlSurface3 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
-	3:sdlSurface3 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
-	4:sdlSurface3 := TTF_RenderText_Blended(ttfFont,'4', sdlColor1);
-	5:sdlSurface3 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
+	1:scoreJ1 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
+	2:scoreJ1 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
+	3:scoreJ1 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
+	4:scoreJ1 := TTF_RenderText_Blended(ttfFont,'4', sdlColor1);
+	5:scoreJ1 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
 	end;
-	if sdlSurface3 = nil then
+	if scoreJ1 = nil then
 		Halt;
 		
 	case j2.score of
-	1:sdlSurface4 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
-	2:sdlSurface4 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
-	3:sdlSurface4 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
-	4:sdlSurface4 := TTF_RenderText_Blended(ttfFont,'4', sdlColor1);
-	5:sdlSurface4 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
+	1:scoreJ2 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
+	2:scoreJ2 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
+	3:scoreJ2 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
+	4:scoreJ2 := TTF_RenderText_Blended(ttfFont,'4', sdlColor1);
+	5:scoreJ2 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
 	end;
-	if sdlSurface4 = nil then
+	if scoreJ2 = nil then
 		Halt;
+	
+	if (j1.t.nomt='Victor') and (j2.t.nomt='Victor') then
+		begin
+			case j1.t.pv of
+			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
+			150:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			100:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			50:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:50', sdlColor1);
+			0:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			200:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
+			150:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			100:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			50:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:50', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
 		
+	if (j1.t.nomt='Victor') and (j2.t.nomt='JM') then
+		begin
+			case j1.t.pv of
+			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
+			130:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:130', sdlColor1);
+			60:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:60', sdlColor1);
+			else
+			pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			150:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			100:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			50:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:50', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
+	
+	if (j1.t.nomt='Victor') and (j2.t.nomt='Tom') then
+		begin
+			case j1.t.pv of
+			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
+			110:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:110', sdlColor1);
+			20:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:20', sdlColor1);
+			else
+			pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			100:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			50:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:50', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
+		
+		if (j1.t.nomt='JM') and (j2.t.nomt='JM') then
+		begin
+			case j1.t.pv of
+			150:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			80:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:80', sdlColor1);
+			10:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:10', sdlColor1);
+			else
+			pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			150:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			80:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:80', sdlColor1);
+			10:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:10', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
+		
+		if (j1.t.nomt='JM') and (j2.t.nomt='Tom') then
+		begin
+			case j1.t.pv of
+			150:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:150', sdlColor1);
+			60:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:60', sdlColor1);
+			else
+			pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			100:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			30:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:30', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
+		
+		if (j1.t.nomt='Tom') and (j2.t.nomt='Tom') then
+		begin
+			case j1.t.pv of
+			100:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			10:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:10', sdlColor1);
+			else
+			pvJ1 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+			case j2.t.pv of
+			100:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:100', sdlColor1);
+			10:pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:10', sdlColor1);
+			else
+			pvJ2 := TTF_RenderText_Blended(ttfFont,'PV:0', sdlColor1);
+			end;
+		end;
+	
 		
 		
 		
 		
     // Charger les textures (images)
-    sdlTexture1 := IMG_LoadTexture(sdlRenderer, './Images/fond_noir.png');
+    sdlTexture1 := IMG_LoadTexture(sdlRenderer, './Images/fond_noir.png'); 
     if sdlTexture1 = nil then
 		Halt;
       
@@ -169,19 +275,27 @@ begin
     if sdlTexture2 = nil then
 		Halt;
       
-	sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
+	sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, nomJ1);
 	if sdlTexture3 = nil then
 		Halt;
 	
-	sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
+	sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, nomJ2);
 	if sdlTexture4 = nil then
 		Halt;
 		
-	sdlTexture5 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
+	sdlTexture5 := SDL_CreateTextureFromSurface(sdlRenderer, scoreJ1);
 	if sdlTexture5 = nil then
 		Halt;
 		
-	sdlTexture6 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface4);
+	sdlTexture6 := SDL_CreateTextureFromSurface(sdlRenderer, scoreJ2);
+	if sdlTexture6 = nil then
+		Halt;
+		
+	sdlTexture7 := SDL_CreateTextureFromSurface(sdlRenderer, pvJ1);
+	if sdlTexture6 = nil then
+		Halt;
+	
+	sdlTexture8 := SDL_CreateTextureFromSurface(sdlRenderer, pvJ2);
 	if sdlTexture6 = nil then
 		Halt;
 	
@@ -224,9 +338,23 @@ begin
     // Définir la position du score du joueur 2
 	sdlRectangle.x := 300;
     sdlRectangle.y := 25;
-    sdlRectangle.w := 30;
+    sdlRectangle.w := 70;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle); //Affiche le score du joueur 2
+    
+    // Définir la position des pv du joueur 1
+    sdlRectangle.x := 200;
+    sdlRectangle.y := 25;
+    sdlRectangle.w := 70;
+    sdlRectangle.h := 50; 
+    SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle); //Affiche les pv du joueur 1
+    
+    // Définir la position des pv joueur 2
+	sdlRectangle.x := 300;
+    sdlRectangle.y := 25;
+    sdlRectangle.w := 30;
+    sdlRectangle.h := 50; 
+    SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle); //Affiche les pv du joueur 2
 	
     // Mettre à jour l'écran
     SDL_RenderPresent(sdlRenderer);
