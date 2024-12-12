@@ -100,14 +100,13 @@ begin
    //Chargement de la police
 	if TTF_Init = -1 then HALT;
 		ttfFont := TTF_OpenFont('./Police/Arialn.ttf', 100); //cherche la police
-		TTF_SetFontOutline(ttfFont, 1); //creer un contour ou non au texte
+		TTF_SetFontOutline(ttfFont, 0); //creer un contour ou non au texte
 		TTF_SetFontHinting(ttfFont, TTF_HINTING_NORMAL);
   
   
   
 	// Définition des couleurs par valeurs RGB pour la police 1 et 2
 	sdlColor1.r := 255; sdlColor1.g := 255; sdlColor1.b :=255;//blanc
-	sdlColor2.r := 0; sdlColor2.g := 0; sdlColor2.b :=0;
   
 	// Création de la fenêtre et du renderer 
 	sdlWindow1 := SDL_CreateWindow('Affichage de l''image', SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SURFACE_WIDTH, SURFACE_HEIGHT, SDL_WINDOW_SHOWN);
@@ -124,7 +123,7 @@ begin
 	case j1.nom of
 	'JM' :nomJ1 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J1 par defaut 
 	'Tom':nomJ1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	'Victor':nomJ1 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	'Vic':nomJ1 := TTF_RenderText_Blended(ttfFont,'Vic', sdlColor1);
 	else nomJ1 := TTF_RenderText_Blended(ttfFont, 'J1', sdlColor1);
 	end;
 	if nomJ1 = nil then
@@ -133,12 +132,15 @@ begin
 	case j2.nom of
 	'JM' :nomJ2 := TTF_RenderText_Blended(ttfFont,'JM', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit quelques noms de la classe sinon on met J2 par defaut
 	'Tom':nomJ2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
-	'Victor':nomJ2 := TTF_RenderText_Blended(ttfFont,'Tom', sdlColor1);
+	'Vic':nomJ2 := TTF_RenderText_Blended(ttfFont,'Vic', sdlColor1);
 	else nomJ2 := TTF_RenderText_Blended(ttfFont, 'J2', sdlColor1);
 	end;
+	
 	if nomJ2 = nil then
-		Halt;
+			Halt;
+			
 	case j1.score of
+	0:scoreJ1 := TTF_RenderText_Blended(ttfFont,'0', sdlColor1);
 	1:scoreJ1 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
 	2:scoreJ1 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
 	3:scoreJ1 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
@@ -146,9 +148,13 @@ begin
 	5:scoreJ1 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
 	end;
 	if scoreJ1 = nil then
-		Halt;
+		begin
+			writeln('pb s1');
+			Halt;
+		end;
 		
 	case j2.score of
+	0:scoreJ2 := TTF_RenderText_Blended(ttfFont,'0', sdlColor1);
 	1:scoreJ2 := TTF_RenderText_Blended(ttfFont,'1', sdlColor1);  // On ne peut pas mettre une variable dans l'affichage de texte donc on définit 5 points maximum par joueur
 	2:scoreJ2 := TTF_RenderText_Blended(ttfFont,'2', sdlColor1);
 	3:scoreJ2 := TTF_RenderText_Blended(ttfFont,'3', sdlColor1);
@@ -156,9 +162,12 @@ begin
 	5:scoreJ2 := TTF_RenderText_Blended(ttfFont,'5', sdlColor1);
 	end;
 	if scoreJ2 = nil then
-		Halt;
+		begin
+			writeln('pb s2');
+			Halt;
+		end;
 	
-	if (j1.t.nomt='Victor') and (j2.t.nomt='Victor') then
+	if (j1.t.nomt='Vic') and (j2.t.nomt='Vic') then
 		begin
 			case j1.t.pv of
 			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
@@ -177,7 +186,7 @@ begin
 			end;
 		end;
 		
-	if (j1.t.nomt='Victor') and (j2.t.nomt='JM') then
+	if (j1.t.nomt='Vic') and (j2.t.nomt='JM') then
 		begin
 			case j1.t.pv of
 			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
@@ -195,7 +204,7 @@ begin
 			end;
 		end;
 	
-	if (j1.t.nomt='Victor') and (j2.t.nomt='Tom') then
+	if (j1.t.nomt='Vic') and (j2.t.nomt='Tom') then
 		begin
 			case j1.t.pv of
 			200:pvJ1 := TTF_RenderText_Blended(ttfFont,'PV: 200', sdlColor1);
@@ -292,11 +301,11 @@ begin
 		Halt;
 		
 	sdlTexture7 := SDL_CreateTextureFromSurface(sdlRenderer, pvJ1);
-	if sdlTexture6 = nil then
+	if sdlTexture7 = nil then
 		Halt;
 	
 	sdlTexture8 := SDL_CreateTextureFromSurface(sdlRenderer, pvJ2);
-	if sdlTexture6 = nil then
+	if sdlTexture8 = nil then
 		Halt;
 	
 	// Définir la taille et la position du fond noir
@@ -315,55 +324,61 @@ begin
 	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);// Afficher l'image du score a la meme position que le fond noir
     
    	// Définir la position du nom du joueur 1
-    sdlRectangle.x := 10;
+    sdlRectangle.x := 5;
     sdlRectangle.y := 25;
-    sdlRectangle.w := 75;
+    sdlRectangle.w := 60;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle); //Affiche le nom du joueur 1
     
     // Définir la position du nom du joueur 2
-    sdlRectangle.x := 470;
+    sdlRectangle.x := 485;
     sdlRectangle.y := 25;
-    sdlRectangle.w := 75;
+    sdlRectangle.w := 60;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle); //Affiche le nom du joueur 2
     
     // Définir la position du score du joueur 1
-    sdlRectangle.x := 200;
-    sdlRectangle.y := 25;
+    sdlRectangle.x := 232;
+    sdlRectangle.y := 73;
     sdlRectangle.w := 30;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle); //Affiche le score du joueur 1
     
     // Définir la position du score du joueur 2
-	sdlRectangle.x := 300;
-    sdlRectangle.y := 25;
-    sdlRectangle.w := 70;
+	sdlRectangle.x := 283;
+    sdlRectangle.y := 73;
+    sdlRectangle.w := 30;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle); //Affiche le score du joueur 2
     
     // Définir la position des pv du joueur 1
-    sdlRectangle.x := 200;
+    sdlRectangle.x := 150;
     sdlRectangle.y := 25;
-    sdlRectangle.w := 70;
+    sdlRectangle.w := 100;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle); //Affiche les pv du joueur 1
     
     // Définir la position des pv joueur 2
 	sdlRectangle.x := 300;
     sdlRectangle.y := 25;
-    sdlRectangle.w := 30;
+    sdlRectangle.w := 100;
     sdlRectangle.h := 50; 
     SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle); //Affiche les pv du joueur 2
 	
     // Mettre à jour l'écran
     SDL_RenderPresent(sdlRenderer);
 
-	delay(5000);
+	delay(10000);
 
 	// Libération des ressources
 	SDL_DestroyTexture(sdlTexture1);
 	SDL_DestroyTexture(sdlTexture2);
+	SDL_DestroyTexture(sdlTexture3);
+	SDL_DestroyTexture(sdlTexture4);
+	SDL_DestroyTexture(sdlTexture5);
+	SDL_DestroyTexture(sdlTexture6);
+	SDL_DestroyTexture(sdlTexture7);
+	SDL_DestroyTexture(sdlTexture8);
     SDL_DestroyRenderer(sdlRenderer);
     SDL_DestroyWindow(sdlWindow1);
     SDL_Quit;
