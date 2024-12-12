@@ -1,13 +1,13 @@
 unit jouercartes;
 interface
-uses SDL2, SDL2_image,math,types,mouvement,collisionMun,tirs;
+uses SDL2, SDL2_image,math,types,mouvement,collisionMun,tirs,interaction;
 
 var
   sdlWindow1: PSDL_Window;
   sdlRenderer: PSDL_Renderer;
   sdlKeyboardState: PUInt8;
   sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4, sdlSurface5: PSDL_Surface;
-  sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8, sdlTexture9, sdlTexture10,sdlTexture11,backgroundTexture: PSDL_Texture;
+  sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8, sdlTexture9, sdlTexture10,sdlTexture11,backgroundTexture,TextureScore1,TextureScore2,TexturePv1,TexturePv2: PSDL_Texture;
   sdlRectangle: TSDL_Rect;
   i: integer;
   event: TSDL_Event;
@@ -31,8 +31,6 @@ implementation
 procedure jouercarte1(var j1,j2: joueur);
 
 begin
-j1.t.vitesse := 3;
-j2.t.vitesse :=2;
 lastRotationTime1 := SDL_GetTicks;
 lastRotationTime2 := SDL_GetTicks;
 
@@ -112,6 +110,7 @@ iniobst1(car1);
 chargerTexturesT1(sdlRenderer);
 chargerTexturesT2(sdlRenderer);
 chargerTexturesT3(sdlRenderer);
+iniScore(j1,j2);
 
   // Boucle principale
   isRunning := True;
@@ -127,7 +126,11 @@ chargerTexturesT3(sdlRenderer);
   SDL_SetRenderTarget(sdlRenderer, backgroundTexture);
   
   //fond
-  SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
+	sdlRectangle.x:=0;
+	sdlRectangle.y:=0;
+	sdlRectangle.w:=1200;
+	sdlRectangle.h:=800;
+  SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, @sdlRectangle);
   
   // 2 caisses en haut à gauche
   
@@ -384,19 +387,42 @@ chargerTexturesT3(sdlRenderer);
    sdlRectangle.h:=35;
    SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
    
+   sdlRectangle.x:=0;
+   sdlRectangle.y:=0;
+   sdlRectangle.w:=100;
+   sdlRectangle.h:=50;   
+   SDL_RenderCopy(sdlRenderer, TextureScore1, nil, @sdlRectangle);
+   
+   sdlRectangle.x:=0;
+   sdlRectangle.y:=50;
+   sdlRectangle.w:=100;
+   sdlRectangle.h:=50;   
+   SDL_RenderCopy(sdlRenderer, TexturePv1, nil, @sdlRectangle);  
+
+   sdlRectangle.x:=1100;
+   sdlRectangle.y:=0;
+   sdlRectangle.w:=100;
+   sdlRectangle.h:=50;   
+   SDL_RenderCopy(sdlRenderer, TextureScore2, nil, @sdlRectangle);
+
+   sdlRectangle.x:=1100;
+   sdlRectangle.y:=50;
+   sdlRectangle.w:=100;
+   sdlRectangle.h:=50;   
+   SDL_RenderCopy(sdlRenderer, TexturePv2, nil, @sdlRectangle);  
+     
    // Rétablir le renderer par défaut
    SDL_SetRenderTarget(sdlRenderer, nil);
    
-   
-   
     // Affichage des tanks
-    // Tank T1 rouge
+    // Tank Joueur 1
     if j1.t.visible then
     begin
     sdlRectangle.x := j1.t.x;
     sdlRectangle.y := j1.t.y;
     sdlRectangle.w := 60;
     sdlRectangle.h := 60;
+    //Affiche différents tanks en fonction du choix
     if j1.t.nomt ='Vic' then
 		SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
     if j1.t.nomt ='Tom' then
@@ -405,13 +431,14 @@ chargerTexturesT3(sdlRenderer);
 		SDL_RenderCopy(sdlRenderer, sdlTexture10, nil, @sdlRectangle);
 	end;	
 	
-    // Tank T2 bleu
+    // Tank Joueur 2
     if j2.t.visible then
     begin
     sdlRectangle.x := j2.t.x;
     sdlRectangle.y := j2.t.y;
     sdlRectangle.w := 60;
     sdlRectangle.h := 60;
+    //Affiche différents tanks en fonction du choix
     if j2.t.nomt ='Vic' then
 		SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
     if j2.t.nomt ='Tom' then
@@ -419,8 +446,8 @@ chargerTexturesT3(sdlRenderer);
     if j2.t.nomt ='JM' then
 		SDL_RenderCopy(sdlRenderer, sdlTexture10, nil, @sdlRectangle);
 	end;
+	
     // Mettre à jour la position du rectangle rouge
-  
 
     if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,car1);
     if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,car1);
@@ -447,7 +474,7 @@ chargerTexturesT3(sdlRenderer);
     if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1, car1); // Avancer
     if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,car1); // Reculer
 
-    if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
+    if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then // Rotations vers la droite
     begin if SDL_GetTicks - lastRotationTime2 > rotationDelay then
       begin
         TournerDroite(j2);
@@ -455,7 +482,7 @@ chargerTexturesT3(sdlRenderer);
       end;
     end
 
-    else if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then
+    else if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then //Rotation vers la droite
     begin if SDL_GetTicks - lastRotationTime2 > rotationDelay then
       begin
         TournerGauche(j2);
@@ -579,13 +606,29 @@ begin
   SDL_FreeSurface(sdlSurface3);
   // ferme la SDL2
   SDL_Quit;
+
+//Affiche le gagnant
+if j1.score>j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j1.nom,' a gagne la partie !');
+	end;
+if j1.score<j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j2.nom,' a gagne la partie !');	
+	end;
+if j1.score=j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln('Egalite parfaite !');
+	end;
+	
 end;
 	  
 
 procedure jouercarte2(var j1,j2: joueur);
 begin
-j1.t.vitesse := 3;
-j2.t.vitesse :=2;
 lastRotationTime1 := SDL_GetTicks;
 lastRotationTime2 := SDL_GetTicks;
 
@@ -687,6 +730,7 @@ chargerTexturesT3(sdlRenderer);
   while isRunning do
   begin
     SDL_PumpEvents;
+
 
   // Définir cette texture comme cible de rendu
   SDL_SetRenderTarget(sdlRenderer, backgroundTexture);
@@ -1206,12 +1250,29 @@ begin
   SDL_FreeSurface(sdlSurface3);
   // ferme la SDL2
   SDL_Quit;
+  
+//Affiche le gagnant
+if j1.score>j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j1.nom,' a gagne la partie !');
+	end;
+if j1.score<j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j2.nom,' a gagne la partie !');	
+	end;
+if j1.score=j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln('Egalite parfaite !');
+	end;
+	
 end;
+
 
 procedure jouercarte3(var j1,j2:joueur);
 begin
-j1.t.vitesse := 3;
-j2.t.vitesse :=2;
 lastRotationTime1 := SDL_GetTicks;
 lastRotationTime2 := SDL_GetTicks;
   // Initialisation de la video du sous-système
@@ -1787,6 +1848,24 @@ begin
   SDL_DestroyRenderer(sdlRenderer);
   SDL_DestroyWindow(sdlWindow1);
   SDL_Quit;
+  
+//Affiche le gagnant
+if j1.score>j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j1.nom,' a gagne la partie !');
+	end;
+if j1.score<j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln(j2.nom,' a gagne la partie !');	
+	end;
+if j1.score=j2.score then
+	begin
+   	writeln('===================================================');	
+	writeln('Egalite parfaite !');
+	end;
+	
 end;
 
 end.
