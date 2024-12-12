@@ -534,7 +534,7 @@ for i:=1 to 5 do
 begin
   if j1.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer,255 ,0 , 0, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j1.t.munitions[i].x;
     sdlRectangle.y :=j1.t.munitions[i].y;
     sdlRectangle.w := 10;
@@ -569,7 +569,7 @@ for i:=1 to 5 do
 begin
   if j2.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j2.t.munitions[i].x;
     sdlRectangle.y :=j2.t.munitions[i].y;
     sdlRectangle.w := 10;
@@ -1175,7 +1175,7 @@ for i:=1 to 5 do
 begin
   if j1.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j1.t.munitions[i].x;
     sdlRectangle.y :=j1.t.munitions[i].y;
     sdlRectangle.w := 10;
@@ -1210,7 +1210,7 @@ for i:=1 to 5 do
 begin
   if j2.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j2.t.munitions[i].x;
     sdlRectangle.y :=j2.t.munitions[i].y;
     sdlRectangle.w := 10;
@@ -1774,7 +1774,7 @@ for i:=1 to 5 do
 begin
   if j1.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j1.t.munitions[i].x;
     sdlRectangle.y :=j1.t.munitions[i].y;
     sdlRectangle.w := 10;
@@ -1809,7 +1809,7 @@ for i:=1 to 5 do
 begin
   if j2.t.munitions[i].visible then
   begin
-    SDL_SetRenderDrawColor(sdlRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Jaune
+    SDL_SetRenderDrawColor(sdlRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE); // Jaune
     sdlRectangle.x :=j2.t.munitions[i].x;
     sdlRectangle.y :=j2.t.munitions[i].y;
     sdlRectangle.w := 10;
