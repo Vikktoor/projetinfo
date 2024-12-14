@@ -10,96 +10,97 @@ procedure affCarte3;
 implementation
 procedure affCarte1;
 
-	var
-  sdlWindow1: PSDL_Window;
-  sdlRenderer: PSDL_Renderer;
-  sdlRectangle: TSDL_Rect;
-  sdlSurface1, sdlSurface2, sdlSurface3:PSDL_Surface;
-  sdlTexture1, sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6,sdlTexture7:PSDL_Texture;
-  i:integer;
-  event: TSDL_Event;
-  isRunning:Boolean;
+	
+var	sdlWindow1: PSDL_Window;
+	sdlRenderer: PSDL_Renderer;
+	sdlRectangle: TSDL_Rect;
+	sdlSurface1, sdlSurface2, sdlSurface3:PSDL_Surface;
+	sdlTexture1, sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6,sdlTexture7:PSDL_Texture;
+	i:integer;
+	event: TSDL_Event;
+	isRunning:Boolean;
 
 begin
 
-  // Initialisation de la video du sous-système
-  if SDL_Init(SDL_INIT_VIDEO) < 0 then Halt;
+	// Initialisation de la video du sous-système
+    if SDL_Init(SDL_INIT_VIDEO) < 0 then 
+		Halt;
 
-  if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0
-    then Halt;
+	if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0 then
+		Halt;
     
-  // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\glace2.bmp');
-  if sdlSurface1 = nil then
-    Halt;
+	// Creer des surfaces à partir de fichiers d'images
+	sdlSurface1 := SDL_LoadBMP('./Images/glace2.bmp');
+		if sdlSurface1 = nil then
+			Halt;
     
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\blocglace.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface3 := SDL_LoadBMP('./Images/blocglace.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 	    
-  // Creer une texture à partir de surfaces
-  
-  sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
-  if sdlTexture1 = nil then
-    Halt;
+	// Creer une texture à partir de surfaces
+	sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
+	if sdlTexture1 = nil then
+		Halt;
     
-  sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
-  if sdlTexture2 = nil then
-    Halt;
+	sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
+	if sdlTexture2 = nil then
+		Halt;
 
-  sdlTexture3 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\flocon.png');
-  if sdlTexture3 = nil then 
-	Halt;
+	sdlTexture3 := IMG_LoadTexture(sdlRenderer, './Images/flocon.png');
+	if sdlTexture3 = nil then 
+		Halt;
 
-  sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
-  if sdlTexture4 = nil then
-    Halt;
+	sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
+	if sdlTexture4 = nil then
+		Halt;
     
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\boule_de_neige.png');
-  if sdlTexture5 = nil then 
-	Halt;
+	sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/Boule_de_neige.png');
+	if sdlTexture5 = nil then 
+		Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\etoile_glace2.png');
-  if sdlTexture6 = nil then 
-	Halt;   
+	sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile_glace2.png');
+	if sdlTexture6 = nil then 
+		Halt;   
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\baton_glace.png');
-  if sdlTexture7 = nil then 
-	Halt;   
+	sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/baton_glace.png');
+	if sdlTexture7 = nil then 
+		Halt;   
 	 
-  //affichage des textures
+	// Affichage des textures
   
-  //fond
-  SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
+	// Fond
+	SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
   
-  // 2 caisses en haut à gauche
-  
+	// 2 caisses en haut à gauche
+	// Ici on établit les positions de l'affichage de la texture sur la fenêtre pour les deux premières caisses
    	for i:=0 to 100 do
 		begin
 			if (i mod 100=0) then
 				begin
-				    sdlRectangle.x:=i;
-					sdlRectangle.y:=0;
-					sdlRectangle.w:=100;
-					sdlRectangle.h:=100;
-					SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+				    sdlRectangle.x:=i;// Position en x
+					sdlRectangle.y:=0;// Position en y
+					sdlRectangle.w:=100;// Largeur du rectangle
+					sdlRectangle.h:=100;// Hauteur du rectangle
+					SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);// Affiche la texture à la position souhaité
 				end
 		end; 
+	// On répète le processus pour toutes les images du décors 
 		
-  // Caisse en haut à droite
-   sdlRectangle.x:=1100;
-   sdlRectangle.y:=0;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+	// Caisse en haut à droite
+	sdlRectangle.x:=1100;
+	sdlRectangle.y:=0;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
    
-   // 2 caisses au milieu
-   
-   	for i:=500 to 600 do
+	// 2 caisses au milieu
+	
+	for i:=500 to 600 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -198,7 +199,7 @@ begin
 
 	// 2 caisses milieu en bas à gauche
 	
-   	for i:=300 to 400 do
+	for i:=300 to 400 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -212,7 +213,7 @@ begin
 		
 	// 2 caisses en bas à droite
 
-   	for i:=600 to 700 do
+	for i:=600 to 700 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -226,7 +227,7 @@ begin
 
 	// 3 caisses en bas à gauche 
 
-   	for i:=0 to 100 do
+	for i:=0 to 100 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -238,656 +239,658 @@ begin
 				end
 		end;
 
-   sdlRectangle.x:=0;
-   sdlRectangle.y:=600;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-   SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);//affichage boule de neige sur la caisse
+	sdlRectangle.x:=0;
+	sdlRectangle.y:=600;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);//affichage boule de neige sur la caisse
 
 	// Affichage de la couronnecentrale de flocons de neige
 	
-   sdlRectangle.x:=500;
-   sdlRectangle.y:=300;
-   sdlRectangle.w:=220;
-   sdlRectangle.h:=220;
-   SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);	
+	sdlRectangle.x:=500;
+	sdlRectangle.y:=300;
+	sdlRectangle.w:=220;
+	sdlRectangle.h:=220;
+	SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);	
    
-   // Affichage des boules de neige
+	// Affichage des boules de neige
   
-  //boule de neige en haut à gauche
+	// Boule de neige en haut à gauche
   
-   sdlRectangle.x:=0;
-   sdlRectangle.y:=0;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);	
+	sdlRectangle.x:=0;
+	sdlRectangle.y:=0;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);	
    
-   //boule de neige caisse du milieu à gauche
+	// Boule de neige caisse du milieu à gauche
    
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=400;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=400;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
    
-   //Affichage des flocons
+	// Affichage des flocons
    
-   //flocon en haut à gauche
+	// Flocon en haut à gauche
    
-   sdlRectangle.x:=400;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=60;
-   sdlRectangle.h:=60;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle); 
+	sdlRectangle.x:=400;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=60;
+	sdlRectangle.h:=60;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle); 
    
-   //flocon en haut à droite 	
+	// Flocon en haut à droite 	
      
-   sdlRectangle.x:=900;
-   sdlRectangle.y:=50;
-   sdlRectangle.w:=80;
-   sdlRectangle.h:=80;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);  
+	sdlRectangle.x:=900;
+	sdlRectangle.y:=50;
+	sdlRectangle.w:=80;
+	sdlRectangle.h:=80;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);  
    
-   //flocon en bas à droite
+	// Flocon en bas à droite
    
-   sdlRectangle.x:=900;
-   sdlRectangle.y:=650;
-   sdlRectangle.w:=40;
-   sdlRectangle.h:=40;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+	sdlRectangle.x:=900;
+	sdlRectangle.y:=650;
+	sdlRectangle.w:=40;
+	sdlRectangle.h:=40;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
    
-   //flocon en bas à gauhe
+	// Flocon en bas à gauhe
    
-   sdlRectangle.x:=300;
-   sdlRectangle.y:=710;
-   sdlRectangle.w:=70;
-   sdlRectangle.h:=70;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);  
+	sdlRectangle.x:=300;
+	sdlRectangle.y:=710;
+	sdlRectangle.w:=70;
+	sdlRectangle.h:=70;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);  
    
-   //Affichage bâtons de glace
+	//Affichage bâtons de glace
    
-   //baton milieu à droite
+	//baton milieu à droite
    
-   sdlRectangle.x:=920;
-   sdlRectangle.y:=400;
-   sdlRectangle.w:=60;
-   sdlRectangle.h:=60;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+	sdlRectangle.x:=920;
+	sdlRectangle.y:=400;
+	sdlRectangle.w:=60;
+	sdlRectangle.h:=60;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
    
-   //baton en bas à gauche
+	// Baton en bas à gauche
            
-   sdlRectangle.x:=210;
-   sdlRectangle.y:=580;
-   sdlRectangle.w:=80;
-   sdlRectangle.h:=80;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+	sdlRectangle.x:=210;
+	sdlRectangle.y:=580;
+	sdlRectangle.w:=80;
+	sdlRectangle.h:=80;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
    
-   //baton en haut à gauche
+	// Baton en haut à gauche
    
-   sdlRectangle.x:=110;
-   sdlRectangle.y:=180;
-   sdlRectangle.w:=35;
-   sdlRectangle.h:=35;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);  
+	sdlRectangle.x:=110;
+	sdlRectangle.y:=180;
+	sdlRectangle.w:=35;
+	sdlRectangle.h:=35;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);  
       
-  // Afficher à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
-  SDL_RenderPresent(sdlRenderer);
+	// Affiche à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
+	SDL_RenderPresent(sdlRenderer);
   
-  isRunning:=True;
+	isRunning:=True;
   
-  while isRunning do // boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
-  begin
-	while SDL_PollEvent(@event)<>0 do // vériifie si il y a eu un évenement (ex: clic de souris)
-	begin
-		if event.type_=SDL_QUITEV then // si l'utilisateur clic surla croix de la fenêtre
-			isRunning:=False;
-	end;
-  end;
-   // boucle pour afficher indéfiniement l'écran
+	while isRunning do // Boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
+		begin
+			while SDL_PollEvent(@event)<>0 do // Vériifie si il y a eu un évenement (ex: clic de souris)
+				begin
+					if event.type_=SDL_QUITEV then // Si l'utilisateur clic surla croix de la fenêtre
+						isRunning:=False;
+				end;
+		end;
+		
+	// Boucle pour afficher indéfiniement l'écran
   
-  SDL_DestroyRenderer(sdlRenderer);
-  SDL_DestroyWindow (sdlWindow1);
-  SDL_DestroyTexture(sdlTexture1);
-  SDL_DestroyTexture(sdlTexture2);
-  SDL_DestroyTexture(sdlTexture3);
-  SDL_DestroyTexture(sdlTexture4);
-  SDL_DestroyTexture(sdlTexture5);
-  SDL_DestroyTexture(sdlTexture6); 
-  SDL_DestroyTexture(sdlTexture7);   
-  SDL_FreeSurface(sdlSurface1);
-  SDL_FreeSurface(sdlSurface2);
-  SDL_FreeSurface(sdlSurface3);
-  // ferme la SDL2
-  SDL_Quit;
+	SDL_DestroyRenderer(sdlRenderer);
+	SDL_DestroyWindow (sdlWindow1);
+	SDL_DestroyTexture(sdlTexture1);
+	SDL_DestroyTexture(sdlTexture2);
+	SDL_DestroyTexture(sdlTexture3);
+	SDL_DestroyTexture(sdlTexture4);
+	SDL_DestroyTexture(sdlTexture5);
+	SDL_DestroyTexture(sdlTexture6); 
+	SDL_DestroyTexture(sdlTexture7);   
+	SDL_FreeSurface(sdlSurface1);
+	SDL_FreeSurface(sdlSurface2);
+	SDL_FreeSurface(sdlSurface3);
+	// Ferme la SDL2
+	SDL_Quit;
 end;
 	
 	procedure affCarte2;
-	var
-  sdlWindow1: PSDL_Window;
-  sdlRenderer: PSDL_Renderer;
-  sdlRectangle: TSDL_Rect;
-  sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4, sdlSurface5:PSDL_Surface;
-  sdlTexture1, sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8:PSDL_Texture;
-  i:integer;
-  event: TSDL_Event;
-  isRunning:Boolean;
+	
+var sdlWindow1: PSDL_Window;
+	sdlRenderer: PSDL_Renderer;
+	sdlRectangle: TSDL_Rect;
+	sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4, sdlSurface5:PSDL_Surface;
+	sdlTexture1, sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8:PSDL_Texture;
+	i:integer;
+	event: TSDL_Event;
+	isRunning:Boolean;
 
 begin
 
-  // Initialisation de la video du sous-système
-  
-  if SDL_Init(SDL_INIT_VIDEO) < 0 then Halt;
-
-  if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0
-    then Halt;
+	// Initialisation de la video du sous-système
+	
+	if SDL_Init(SDL_INIT_VIDEO) < 0 then 
+		Halt;
+	if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0 then 
+		Halt;
     
-  // Creer des surfaces à partir de fichiers d'images
+	// Creer des surfaces à partir de fichiers d'images
   
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\herbe.bmp');
-  if sdlSurface1 = nil then
-    Halt;
+	sdlSurface1 := SDL_LoadBMP('./Images/herbe.bmp');
+	if sdlSurface1 = nil then
+		Halt;
 
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_craque.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface2 := SDL_LoadBMP('./Images/pierre_craque.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_mossy.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface3 := SDL_LoadBMP('./Images/pierre_mossy.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 
-  sdlSurface4 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\or.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface4 := SDL_LoadBMP('./Images/or.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 
-  sdlSurface5 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\pierre_gris.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface5 := SDL_LoadBMP('./Images/pierre_gris.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 
-  // Creer une texture à partir de surfaces
+	// Creer une texture à partir de surfaces
   
-  sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
-  if sdlTexture1 = nil then
-    Halt;
+	sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
+	if sdlTexture1 = nil then
+		Halt;
 
-  sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
-  if sdlTexture2 = nil then
-    Halt;
+	sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
+	if sdlTexture2 = nil then
+		Halt;
 
-  sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
-  if sdlTexture3 = nil then
-    Halt;
+	sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
+	if sdlTexture3 = nil then
+		Halt;
 
-  sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface4);
-  if sdlTexture4 = nil then
-    Halt;
+	sdlTexture4 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface4);
+	if sdlTexture4 = nil then
+		Halt;
 
-  sdlTexture5 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface5);
-  if sdlTexture5 = nil then
-    Halt;
+	sdlTexture5 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface5);
+	if sdlTexture5 = nil then
+		Halt;
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\liane.png');
-  if sdlTexture6 = nil then 
-	Halt;
+	sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
+	if sdlTexture6 = nil then 
+		Halt;
 
-  sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\trefle.png');
-  if sdlTexture7 = nil then 
-	Halt;	
+	sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/trefle.png');
+	if sdlTexture7 = nil then 
+		Halt;	
 
-  sdlTexture8 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\fleur.png');
-  if sdlTexture8 = nil then 
-	Halt;
-  //fond
-  SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
-  
-  //mur en haut gauche
-  
-  //Pierre moussues craquelée
-  
-   sdlRectangle.x:=200;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
-   
-  //pierre craqulée
-  
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-  
-   for i:=200 to 500 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=200;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-			end
-	end;
-	
-	//bloc en or
-	
-   sdlRectangle.x:=500;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
-   
-   //mur en bas à gauche
-   
-   //bloc en pierre craquelée
-   
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=400;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-   
-   //bloc en or
-
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=500;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
-   
-   //pierre moussues craquelée
-
-   for i:=100 to 200 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=600;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
-			end
-	end;   
-   
-   //mur du milieu
-   
-   //pierre craqueleé
-   
-   for i:=400 to 700 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=400;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-			end
-	end;
-	
-	//pierre moussues craquelée
-	
-   sdlRectangle.x:=700;
-   sdlRectangle.y:=500;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
-   
-   //mur en haut à droite
-   
-   //pierre craquelée
-   
-   sdlRectangle.x:=900;
-   sdlRectangle.y:=300;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
-   
-   //bloc en or
-   
-   sdlRectangle.x:=900;
-   sdlRectangle.y:=200;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
-   
-   //pierre mossues craquelée
-   
-   for i:=100 to 200 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=1000;
-				sdlRectangle.y:=i;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
-			end
-	end;
-	
-   //mur en bas à droite
-   
-   for i:=1000 to 1100 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=600;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
-			end
-	end;
-
-   for i:=1000 to 1100 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=700;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
-			end
-	end;
-
-	//lianes
-	
-	//mur en haut à gauche
-	
-   for i:=300 to 400 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=200;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-			end
-	end;
-	
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-   
-   //mur en bas à gauche
-   
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=600;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-
-	//mur du milieu
-
-   sdlRectangle.x:=400;
-   sdlRectangle.y:=400;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-   
-   sdlRectangle.x:=700;
-   sdlRectangle.y:=400;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-   
-   //mur en haut à droite
-   
-   sdlRectangle.x:=900;
-   sdlRectangle.y:=200;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-   
-   //mur en bas à droite
-
-   sdlRectangle.x:=1100;
-   sdlRectangle.y:=700;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-   
-   for i:=1000 to 1100 do
-	begin
-		if (i mod 100=0) then
-			begin
-				sdlRectangle.x:=i;
-				sdlRectangle.y:=600;
-				sdlRectangle.w:=100;
-				sdlRectangle.h:=100;
-				SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
-			end
-	end;
+	sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/fleur.png');
+	if sdlTexture8 = nil then 
+		Halt;
 		
-	//trefles
+	// Fond
+	SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
+  
+	// Mur en haut gauche
+  
+	// Pierre moussues craquelée
+  
+	sdlRectangle.x:=200;// Position en x
+	sdlRectangle.y:=100;// Position en Y
+	sdlRectangle.w:=100;// Largeur du rectangle
+	sdlRectangle.h:=100;// Hauteur du rectangle
+	SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
+   
+	// Pierre craquelée
+  
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+  
+	for i:=200 to 500 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=200;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+				end
+		end;
 	
-	//milieu en bas
+	// Bloc en or
 	
-   sdlRectangle.x:=500;
-   sdlRectangle.y:=600;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+	sdlRectangle.x:=500;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
    
-   //milieu à droite
+	// Mur en bas à gauche
    
-   sdlRectangle.x:=1080;
-   sdlRectangle.y:=420;
-   sdlRectangle.w:=70;
-   sdlRectangle.h:=70;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);  
+	// Bloc en pierre craquelée
    
-   //haut à gauche
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=400;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+   
+	// Bloc en or
 
-   sdlRectangle.x:=300;
-   sdlRectangle.y:=30;
-   sdlRectangle.w:=130;
-   sdlRectangle.h:=130;
-   SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=500;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
    
-   //fleurs
+	// Pierre moussues craquelée
+
+	for i:=100 to 200 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=600;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
+				end
+		end;   
    
-   //haut à gauche
+	// Mur du milieu
    
-   sdlRectangle.x:=200;
-   sdlRectangle.y:=330;
-   sdlRectangle.w:=50;
-   sdlRectangle.h:=50;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+	// Pierre craqueleé
    
-   //bas à gauche
+	for i:=400 to 700 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=400;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+				end
+		end;
+	
+	// Pierre moussues craquelée
+	
+	sdlRectangle.x:=700;
+	sdlRectangle.y:=500;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
    
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=700;
-   sdlRectangle.w:=30;
-   sdlRectangle.h:=30;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+	// Mur en haut à droite
    
-   sdlRectangle.x:=130;
-   sdlRectangle.y:=730;
-   sdlRectangle.w:=50;
-   sdlRectangle.h:=50;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+	// Pierre craquelée
    
-   //milieu en haut
+	sdlRectangle.x:=900;
+	sdlRectangle.y:=300;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
    
-   sdlRectangle.x:=700;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=80;
-   sdlRectangle.h:=80;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+	// Bloc en or
    
-   //haut à droite
+	sdlRectangle.x:=900;
+	sdlRectangle.y:=200;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
    
-   sdlRectangle.x:=1130;
-   sdlRectangle.y:=100;
-   sdlRectangle.w:=30;
-   sdlRectangle.h:=30;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle); 
+	// Pierre mossues craquelée
+   
+	for i:=100 to 200 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=1000;
+					sdlRectangle.y:=i;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
+				end
+		end;
+	
+	// Mur en bas à droite
+   
+	for i:=1000 to 1100 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=600;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
+				end
+		end;
+
+	for i:=1000 to 1100 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=700;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
+				end
+		end;
+
+	// Lianes
+	
+	// Mur en haut à gauche
+	
+	for i:=300 to 400 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=200;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+				end
+		end;
+	
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+   
+	// Mur en bas à gauche
+   
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=600;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+
+	// Mur du milieu
+
+	sdlRectangle.x:=400;
+	sdlRectangle.y:=400;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+   
+	sdlRectangle.x:=700;
+	sdlRectangle.y:=400;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+   
+	// Mur en haut à droite
+   
+	sdlRectangle.x:=900;
+	sdlRectangle.y:=200;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+   
+	// Mur en bas à droite
+
+	sdlRectangle.x:=1100;
+	sdlRectangle.y:=700;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+   
+	for i:=1000 to 1100 do
+		begin
+			if (i mod 100=0) then
+				begin
+					sdlRectangle.x:=i;
+					sdlRectangle.y:=600;
+					sdlRectangle.w:=100;
+					sdlRectangle.h:=100;
+					SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
+				end
+		end;
+		
+	// Trefles
+	
+	// Milieu en bas
+	
+	sdlRectangle.x:=500;
+	sdlRectangle.y:=600;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+   
+	// Milieu à droite
+   
+	sdlRectangle.x:=1080;
+	sdlRectangle.y:=420;
+	sdlRectangle.w:=70;
+	sdlRectangle.h:=70;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);  
+   
+	// Haut à gauche
+
+	sdlRectangle.x:=300;
+	sdlRectangle.y:=30;
+	sdlRectangle.w:=130;
+	sdlRectangle.h:=130;
+	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
+   
+   // Fleurs
+   
+   // Haut à gauche
+   
+	sdlRectangle.x:=200;
+	sdlRectangle.y:=330;
+	sdlRectangle.w:=50;
+	sdlRectangle.h:=50;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+   
+	// Bas à gauche
+   
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=700;
+	sdlRectangle.w:=30;
+	sdlRectangle.h:=30;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+   
+	sdlRectangle.x:=130;
+	sdlRectangle.y:=730;
+	sdlRectangle.w:=50;
+	sdlRectangle.h:=50;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+   
+	// Milieu en haut
+   
+	sdlRectangle.x:=700;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=80;
+	sdlRectangle.h:=80;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);  
+   
+	// Haut à droite
+   
+	sdlRectangle.x:=1130;
+	sdlRectangle.y:=100;
+	sdlRectangle.w:=30;
+	sdlRectangle.h:=30;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle); 
 
    
-   sdlRectangle.x:=1150;
-   sdlRectangle.y:=130;
-   sdlRectangle.w:=40;
-   sdlRectangle.h:=40;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+	sdlRectangle.x:=1150;
+	sdlRectangle.y:=130;
+	sdlRectangle.w:=40;
+	sdlRectangle.h:=40;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
    
-   //bas à droite
+	// Bas à droite
    
    
-   sdlRectangle.x:=800;
-   sdlRectangle.y:=700;
-   sdlRectangle.w:=80;
-   sdlRectangle.h:=80;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+	sdlRectangle.x:=800;
+	sdlRectangle.y:=700;
+	sdlRectangle.w:=80;
+	sdlRectangle.h:=80;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
 
-   sdlRectangle.x:=880;
-   sdlRectangle.y:=730;
-   sdlRectangle.w:=40;
-   sdlRectangle.h:=40;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+	sdlRectangle.x:=880;
+	sdlRectangle.y:=730;
+	sdlRectangle.w:=40;
+	sdlRectangle.h:=40;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
    
-   sdlRectangle.x:=790;
-   sdlRectangle.y:=690;
-   sdlRectangle.w:=25;
-   sdlRectangle.h:=25;
-   SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
+	sdlRectangle.x:=790;
+	sdlRectangle.y:=690;
+	sdlRectangle.w:=25;
+	sdlRectangle.h:=25;
+	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
   
-  // Afficher à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
-  SDL_RenderPresent(sdlRenderer);
+	// Affiche à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
+	SDL_RenderPresent(sdlRenderer);
   
-  isRunning:=True;
+	isRunning:=True;
   
-  while isRunning do // boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
-  begin
-	while SDL_PollEvent(@event)<>0 do // vériifie si il y a eu un évenement (ex: clic de souris)
-	begin
-		if event.type_=SDL_QUITEV then // si l'utilisateur clic surla croix de la fenêtre
-			isRunning:=False;
-	end;
-  end;
+	while isRunning do // Boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
+		begin
+			while SDL_PollEvent(@event)<>0 do // Vériifie si il y a eu un évenement (ex: clic de souris)
+				begin
+					if event.type_=SDL_QUITEV then // Si l'utilisateur clic surla croix de la fenêtre
+						isRunning:=False;
+				end;
+		end;
 
-	//vide la mémoire
+	// Vide la mémoire
   
-  SDL_DestroyRenderer(sdlRenderer);
-  SDL_DestroyWindow (sdlWindow1);
-  SDL_DestroyTexture(sdlTexture1);
-  SDL_DestroyTexture(sdlTexture2);
-  SDL_DestroyTexture(sdlTexture3);
-  SDL_DestroyTexture(sdlTexture4);
-  SDL_DestroyTexture(sdlTexture5);
-  SDL_DestroyTexture(sdlTexture6); 
-  SDL_DestroyTexture(sdlTexture7); 
-  SDL_DestroyTexture(sdlTexture8);    
-  SDL_FreeSurface(sdlSurface1);
-  SDL_FreeSurface(sdlSurface2);
-  SDL_FreeSurface(sdlSurface3);
-  // ferme la SDL2
-  SDL_Quit;
+	SDL_DestroyRenderer(sdlRenderer);
+	SDL_DestroyWindow (sdlWindow1);
+	SDL_DestroyTexture(sdlTexture1);
+	SDL_DestroyTexture(sdlTexture2);
+	SDL_DestroyTexture(sdlTexture3);
+	SDL_DestroyTexture(sdlTexture4);
+	SDL_DestroyTexture(sdlTexture5);
+	SDL_DestroyTexture(sdlTexture6); 
+	SDL_DestroyTexture(sdlTexture7); 
+	SDL_DestroyTexture(sdlTexture8);    
+	SDL_FreeSurface(sdlSurface1);
+	SDL_FreeSurface(sdlSurface2);
+	SDL_FreeSurface(sdlSurface3);
+	// Ferme la SDL2
+	SDL_Quit;
 end;
 
 	procedure affCarte3;
-	var
-  sdlWindow1: PSDL_Window;
-  sdlRenderer: PSDL_Renderer;
-  sdlSurface1, sdlSurface2, sdlSurface3: PSDL_Surface;
-  sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8: PSDL_Texture;
-  sdlRectangle: TSDL_Rect;
-  i:integer;
-  event: TSDL_Event;
-  isRunning:Boolean;
+	
+var  sdlWindow1: PSDL_Window;
+	sdlRenderer: PSDL_Renderer;
+	sdlSurface1, sdlSurface2, sdlSurface3: PSDL_Surface;
+	sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8: PSDL_Texture;
+	sdlRectangle: TSDL_Rect;
+	i:integer;
+	event: TSDL_Event;
+	isRunning:Boolean;
 
 begin
 
-  // Initialisation de la video du sous-système
-  if SDL_Init(SDL_INIT_VIDEO) < 0 then Halt;
+	// Initialisation de la video du sous-système
+	if SDL_Init(SDL_INIT_VIDEO) < 0 then 
+		Halt;
 
-  if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0
-    then Halt;
+	if SDL_CreateWindowAndRenderer(1200, 800, SDL_WINDOW_SHOWN, @sdlWindow1, @sdlRenderer) <> 0 then 
+		Halt;
 
-  // Creer des surfaces à partir de fichiers d'images
-  sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\sable.bmp');
-  if sdlSurface1 = nil then
-    Halt;
+	// Creer des surfaces à partir de fichiers d'images
+	sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\sable.bmp');
+	if sdlSurface1 = nil then
+		Halt;
     
-  sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 	
-  sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse2.bmp');
-  if sdlSurface2 = nil then
-	Halt;
+	sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse2.bmp');
+	if sdlSurface2 = nil then
+		Halt;
 
-  // Creer une texture à partir de surfaces
-  sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
-  if sdlTexture1 = nil then
-    Halt;
+	// Creer une texture à partir de surfaces
+	sdlTexture1 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface1);
+	if sdlTexture1 = nil then
+		Halt;
     
-  sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
-  if sdlTexture2 = nil then
-    Halt;
+	sdlTexture2 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface2);
+	if sdlTexture2 = nil then
+		Halt;
  
-  sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
-  if sdlTexture3 = nil then
-    Halt;
+	sdlTexture3 := SDL_CreateTextureFromSurface(sdlRenderer, sdlSurface3);
+	if sdlTexture3 = nil then
+		Halt;
     
-  sdlTexture4 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\troue1.png');
-  if sdlTexture4 = nil then 
-	Halt;
+	sdlTexture4 := IMG_LoadTexture(sdlRenderer, './Images/troue1.png');
+	if sdlTexture4 = nil then 
+		Halt;
 
-  sdlTexture5 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\liane.png');
-  if sdlTexture5 = nil then 
-	Halt;	
+	sdlTexture5 := IMG_LoadTexture(sdlRenderer, './Images/liane.png');
+	if sdlTexture5 = nil then 
+		Halt;	
 
-  sdlTexture6 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\etoile.png');
-  if sdlTexture6 = nil then 
-	Halt;
+	sdlTexture6 := IMG_LoadTexture(sdlRenderer, './Images/etoile.png');
+	if sdlTexture6 = nil then 
+		Halt;
 	
-     sdlTexture7 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\coquillage.png');
-  if sdlTexture7 = nil then 
-	Halt;
+	sdlTexture7 := IMG_LoadTexture(sdlRenderer, './Images/coquillage.png');
+	if sdlTexture7 = nil then 
+		Halt;
 	
-     sdlTexture8 := IMG_LoadTexture(sdlRenderer, 'C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\coquillage2.png');
-  if sdlTexture8 = nil then 
-	Halt;
+	sdlTexture8 := IMG_LoadTexture(sdlRenderer, './Images/coquillage2.png');
+	if sdlTexture8 = nil then 
+		Halt;
 	
-   // première caisse du bas
+	// Première caisse du bas
     
-   sdlRectangle.x:=0;
-   sdlRectangle.y:=600;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;
+	sdlRectangle.x:=0; // Position en x
+	sdlRectangle.y:=600;// Position en Y
+	sdlRectangle.w:=100;// Largeur du rectangle
+	sdlRectangle.h:=100;// Hauteur du rectangle
 
-  // Affiche la texture à l'endroit et de la taille du rectangle définit précédement
+	// Affiche la texture à l'endroit et de la taille du rectangle définit précédement
 	SDL_RenderCopy(sdlRenderer, sdlTexture1, nil, nil);
 	SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);
 	
-	// deuxième caisse du bas
+	// Deuxième caisse du bas
 	
-   sdlRectangle.x:=0; // position en x
-   sdlRectangle.y:=700; // position en y
-   sdlRectangle.w:=100; // largeur du rectangle
-   sdlRectangle.h:=100; // hauteur du rectangle
+	sdlRectangle.x:=0; 
+	sdlRectangle.y:=700; 
+	sdlRectangle.w:=100; 
+	sdlRectangle.h:=100; 
    
    	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
    	
-   	// troisème caisse du bas
+   	// Troisème caisse du bas
    	
-   sdlRectangle.x:=100;
-   sdlRectangle.y:=600;
-   sdlRectangle.w:=100;
-   sdlRectangle.h:=100;	
+	sdlRectangle.x:=100;
+	sdlRectangle.y:=600;
+	sdlRectangle.w:=100;
+	sdlRectangle.h:=100;	
 
-   	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
+	SDL_RenderCopy(sdlRenderer, sdlTexture2, nil, @sdlRectangle);
    	
-   	// boucle pour afficher la ligne d'obstacle du bas y=600 et x=400 à 900
-   	
-   	for i:=400 to 900 do
+	// Boucle pour afficher la ligne d'obstacle du bas y=600 et x=400 à 900
+	for i:=400 to 900 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -899,7 +902,7 @@ begin
 				end
 		end;
 		
-	// boucle pour afficher la ligne du milieu y=400 et x=100 à 500
+	// Boucle pour afficher la ligne du milieu y=400 et x=100 à 500
 		
    	for i:=100 to 500 do
 		begin
@@ -913,9 +916,9 @@ begin
 				end
 		end;
 	
-	// boucle pour afficher les deux caisse en y=300 et x=500 à 600
+	// Boucle pour afficher les deux caisse en y=300 et x=500 à 600
 		
-   	for i:=500 to 600 do
+	for i:=500 to 600 do
 		begin
 			if (i mod 100=0) then
 				begin
@@ -927,7 +930,7 @@ begin
 				end
 		end;
 		
-	// afficher caisse partie du milieu ratachée aux caisses de la boucle précedente
+	// Afficher caisse partie du milieu ratachée aux caisses de la boucle précedente
 	
 	sdlRectangle.x:=600;
 	sdlRectangle.y:=200;
@@ -936,7 +939,7 @@ begin
 	SDL_RenderCopy(sdlRenderer, sdlTexture3, nil, @sdlRectangle);	
 
 
-	// boucle pour afficher les deux caisse à droite au milieu
+	// Boucle pour afficher les deux caisse à droite au milieu
 	
    	for i:=900 to 1000 do
 		begin
@@ -950,7 +953,7 @@ begin
 				end
 		end;	
 		
-	// boucle pour afficher les 2 caisses à gauche en haut
+	// Boucle pour afficher les 2 caisses à gauche en haut
 	
    	for i:=100 to 200 do
 		begin
@@ -964,7 +967,7 @@ begin
 				end
 		end;
 	
-	// boucle pour afficher les 3 caisses à droite au milieu reliées à celles de la boucle précedente
+	// Boucle pour afficher les 3 caisses à droite au milieu reliées à celles de la boucle précedente
 	
    	for i:=100 to 300 do
 		begin
@@ -978,7 +981,7 @@ begin
 				end
 		end;
 
-	// boucle pour afficher les 2 caisses en haut au milieu
+	// Boucle pour afficher les 2 caisses en haut au milieu
 	
    	for i:=500 to 600 do
 		begin
@@ -992,7 +995,7 @@ begin
 				end
 		end;
 		
-	// boucle pour afficher les 2 caisses verticales en haut à droite
+	// Boucle pour afficher les 2 caisses verticales en haut à droite
 	
    	for i:=0 to 100 do
 		begin
@@ -1006,9 +1009,9 @@ begin
 				end
 		end;
 	
-	// affichage troue sur la carte
+	// Affichage troue sur la carte
 	
-	// troue au milieu à gauche
+	// Troue au milieu à gauche
 	
 	sdlRectangle.x:=300;
 	sdlRectangle.y:=200;
@@ -1016,7 +1019,7 @@ begin
 	sdlRectangle.h:=100;	
 	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);	
 	
-	// troue en haut a droite	
+	// Troue en haut a droite	
 	
 	sdlRectangle.x:=1000;
 	sdlRectangle.y:=0;
@@ -1024,7 +1027,7 @@ begin
 	sdlRectangle.h:=100;	
 	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);
 	
-	// troue en bas à droite	
+	// Troue en bas à droite	
 	
 	sdlRectangle.x:=1100;
 	sdlRectangle.y:=500;
@@ -1032,9 +1035,9 @@ begin
 	sdlRectangle.h:=100;	
 	SDL_RenderCopy(sdlRenderer, sdlTexture4, nil, @sdlRectangle);	
 	
-	// affichage lianes
+	// Affichage lianes
 	
-	// liane en haut à gauche
+	// Liane en haut à gauche
 	
 	sdlRectangle.x:=100;
 	sdlRectangle.y:=100;
@@ -1042,7 +1045,7 @@ begin
 	sdlRectangle.h:=100;
 	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
 	
-	// lianes pour les caisses du milieu
+	// Lianes pour les caisses du milieu
 
 	sdlRectangle.x:=100;
 	sdlRectangle.y:=400;
@@ -1062,7 +1065,7 @@ begin
 	sdlRectangle.h:=100;
 	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
 	
-	// lianes sur la ligne du bas
+	// Lianes sur la ligne du bas
 	
 	sdlRectangle.x:=400;
 	sdlRectangle.y:=600;
@@ -1076,7 +1079,7 @@ begin
 	sdlRectangle.h:=100;
 	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
 	
-	// liane en haut à droite
+	// Liane en haut à droite
 	
 	sdlRectangle.x:=900;
 	sdlRectangle.y:=100;
@@ -1084,7 +1087,7 @@ begin
 	sdlRectangle.h:=100;
 	SDL_RenderCopy(sdlRenderer, sdlTexture5, nil, @sdlRectangle);
 	
-	// affichage des 2 étoiles de mer
+	// Affichage des 2 étoiles de mer
 	
 	sdlRectangle.x:=500;
 	sdlRectangle.y:=520;
@@ -1098,9 +1101,9 @@ begin
 	sdlRectangle.h:=50;
 	SDL_RenderCopy(sdlRenderer, sdlTexture6, nil, @sdlRectangle);
 	
-	// affichage coquillages
+	// Affichage coquillages
 	
-	// deux petits coquillages en hat à gauche
+	// Deux petits coquillages en hat à gauche
 	
 	sdlRectangle.x:=0;
 	sdlRectangle.y:=200;
@@ -1114,7 +1117,7 @@ begin
 	sdlRectangle.h:=40;
 	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
 	
-	// coquillage en bas à gauche
+	// Coquillage en bas à gauche
 	
 	sdlRectangle.x:=210;
 	sdlRectangle.y:=600;
@@ -1122,7 +1125,7 @@ begin
 	sdlRectangle.h:=70;
 	SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);	
 	
-	// coquillage en bas au milieu
+	// Coquillage en bas au milieu
 	
 	sdlRectangle.x:=580;
 	sdlRectangle.y:=710;
@@ -1130,7 +1133,7 @@ begin
 	sdlRectangle.h:=60;
 	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);
 	
-	// coquillages en haut à droite
+	// Coquillages en haut à droite
 	
 	sdlRectangle.x:=1100;
 	sdlRectangle.y:=200;
@@ -1144,39 +1147,39 @@ begin
 	sdlRectangle.h:=30;
 	SDL_RenderCopy(sdlRenderer, sdlTexture7, nil, @sdlRectangle);					
 		
-  // Afficher à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
-  SDL_RenderPresent(sdlRenderer);
+	// Affiche à l'écran jusqu'à ce que l'utilisateur décide de quitter la fenêtre
+	SDL_RenderPresent(sdlRenderer);
   
-  isRunning:=True;
+	isRunning:=True;
   
-  while isRunning do // boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
-  begin
-	while SDL_PollEvent(@event)<>0 do // vériifie si il y a eu un évenement (ex: clic de souris)
+	while isRunning do // Boucle vérifiant à chaque instant si l'utilisateur quitte la fenêtre ou non
 	begin
-		if event.type_=SDL_QUITEV then // si l'utilisateur clic surla croix de la fenêtre
-			isRunning:=False;
+		while SDL_PollEvent(@event)<>0 do // Vériifie si il y a eu un évenement (ex: clic de souris)
+			begin
+				if event.type_=SDL_QUITEV then // Si l'utilisateur clic surla croix de la fenêtre
+					isRunning:=False;
+			end;
 	end;
-  end;
-  // boucle pour afficher indéfiniement l'écran
+	// Boucle pour afficher indéfiniement l'écran
   
 
-  // vide la mémoire
-  SDL_DestroyTexture(sdlTexture1);
-  SDL_DestroyTexture(sdlTexture2);
-  SDL_DestroyTexture(sdlTexture3);
-  SDL_DestroyTexture(sdlTexture4);
-  SDL_DestroyTexture(sdlTexture5); 
-  SDL_DestroyTexture(sdlTexture6); 
-  SDL_DestroyTexture(sdlTexture7); 
-  SDL_DestroyTexture(sdlTexture8);   
-  SDL_FreeSurface(sdlSurface1);
-  SDL_FreeSurface(sdlSurface2);
-  SDL_FreeSurface(sdlSurface3);
-  SDL_DestroyRenderer(sdlRenderer);
-  SDL_DestroyWindow (sdlWindow1);
+	// Vide la mémoire
+	SDL_DestroyTexture(sdlTexture1);
+	SDL_DestroyTexture(sdlTexture2);
+	SDL_DestroyTexture(sdlTexture3);
+	SDL_DestroyTexture(sdlTexture4);
+	SDL_DestroyTexture(sdlTexture5); 
+	SDL_DestroyTexture(sdlTexture6); 
+	SDL_DestroyTexture(sdlTexture7); 
+	SDL_DestroyTexture(sdlTexture8);   
+	SDL_FreeSurface(sdlSurface1);
+	SDL_FreeSurface(sdlSurface2);
+	SDL_FreeSurface(sdlSurface3);
+	SDL_DestroyRenderer(sdlRenderer);
+	SDL_DestroyWindow (sdlWindow1);
 
-  // ferme la SDL2
-  SDL_Quit;
+	// Ferme la SDL2
+	SDL_Quit;
   
 end;
 
