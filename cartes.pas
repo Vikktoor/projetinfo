@@ -3,9 +3,9 @@ unit cartes;
 interface
 uses SDL2, SDL2_image;
 
-procedure affCarte1;
-procedure affCarte2;
-procedure affCarte3;
+procedure affCarte1;// Procedure pour afficher la carte 1 lors du choix des joueurs
+procedure affCarte2;// Procedure pour afficher la carte 2 lors du choix des joueurs
+procedure affCarte3;// Procedure pour afficher la carte 3 lors du choix des joueurs
 
 implementation
 procedure affCarte1;
