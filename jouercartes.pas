@@ -517,7 +517,7 @@ begin
     if not j1.t.munitions[i].visible then
     begin
       tirer(j1, i);
-          lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+          lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, 
       Break; // On sort après avoir activé une balle 
     end;
   end;
