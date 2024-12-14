@@ -518,7 +518,7 @@ begin
     begin
       tirer(j1, i);
           lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
-      Break; // On sort après avoir activé une balle
+      Break; // On sort après avoir activé une balle 
     end;
   end;
 end;
