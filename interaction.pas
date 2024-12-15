@@ -1,7 +1,9 @@
 unit interaction ;
 
 Interface 
+
 uses types,SDL2, SDL2_image,SDL2_ttf,crt;
+
 const
   SURFACE_WIDTH = 800;
   SURFACE_HEIGHT = 200;
@@ -25,9 +27,10 @@ procedure menu(var j1,j2:joueur;Tabt:Ttank);
 
 Implementation
 
+//Affiche le les caractéristiques des 3 tanks
 procedure afficTank(T: Ttank);
 var i:integer;
-Begin 
+begin 
 	For i:=1 to 3 do
 		begin
 			writeln('');
@@ -41,9 +44,10 @@ Begin
 
 end;
 
+//Permet d'assigner à chaque joueur le tank qu'il a choisi 
 procedure choixTank(T :Ttank;var j: joueur);
 var n :integer;
-Begin
+begin
 	writeln(j.nom,', quel tank choisissez vous ? ');
 	readln(n);
 	while (n<1) or (n>3) do
@@ -57,31 +61,31 @@ Begin
 	j.t.vitesse:=T[n].vitesse;
 end;
 
+//Affichage du menu dans le terminal
 procedure menu(var j1,j2:joueur;Tabt:Ttank);
-
-BEGIN
-	
+begin	
 	afficTank(Tabt);
 	writeln('');
 	writeln('j1 veuillez rentrer votre nom');
-	readln(j1.nom);
+	readln(j1.nom); //Récupere le nom du joueur 1
 	writeln('j2 veuillez rentrer votre nom');
-	readln(j2.nom);
-	choixTank(Tabt,j1);
+	readln(j2.nom); //Récupere le nom du joueeur 2
+	choixTank(Tabt,j1); //Choix tank joueur 1
 	writeln('');
+	//Récapitulatif pour le joueur 1
 	writeln('Recap: ');
 	writeln(j1.nom,', votre tank s''appelle ',j1.t.nomT,'.');
 	writeln('Chaque boulet inflige ',j1.t.degats,' degats a votre adversaire.');
 	writeln('Votre tank a ' ,j1.t.Pv,' Pv.');
 	writeln('Votre tank a un coefficient de vitesse de ' ,j1.t.vitesse:3:2,' .');
-	choixTank(Tabt,j2);
+	choixTank(Tabt,j2); //choix tank joueur 2
 	writeln('');
+	//R&capitulatif pour le joueur 2
 	writeln('Recap: ');
 	writeln(j2.nom,', votre tank s''appelle ',j2.t.nomT,'.');
 	writeln('Chaque boulet inflige ',j2.t.degats,' degats a votre adversaire.');
 	writeln('Votre tank a ' ,j2.t.Pv,' Pv.');
-	writeln('Votre tank a un coefficient de vitesse diagonale de ' ,j2.t.vitesse:3:2,' .');
-	
-END;
+	writeln('Votre tank a un coefficient de vitesse diagonale de ' ,j2.t.vitesse:3:2,' .');	
+end;
 
 end.
