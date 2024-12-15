@@ -213,13 +213,13 @@ begin
 	car[20].x:=700;
 	car[20].y:=500;
 	car[21].x:=1000;
-	car[21].y:=1000;
+	car[21].y:=600;
 	car[22].x:=1100;
-	car[22].y:=1000;
+	car[22].y:=600;
 	car[23].x:=1100;
-	car[23].y:=1100; 
+	car[23].y:=700; 
 	car[24].x:=1000;
-	car[24].y:=1100;
+	car[24].y:=700;
 end;
 
 // Initialise les obstacles de la carte 3
