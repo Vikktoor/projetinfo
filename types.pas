@@ -1,12 +1,17 @@
-
 unit types;
 
 interface
 
 uses SDL2, SDL2_image, SysUtils;
 
+const MAX_MUNITION = 5;
+	  MAX_OBTSACLES = 30;
+	  MAX_TANK = 3;
+	  MAX_TEXTURE = 15;
+	  
 var  SDL_Rect: TSDL_Rect;
 
+// Type munition
 type Mun=record
     nbRebonds,x,y:integer;
     direction,posx,posy:Real;
@@ -14,57 +19,62 @@ type Mun=record
     vitesse:real;
 end;
 
-type Tabmunition = array[1..5] of Mun;
+// Tableau de munition (limité à 5 par joueur)
+type Tabmunition = array[1..MAX_MUNITION] of Mun;
 	
-
-
+// type tank	
 Type tank = record
 	nomT: String;
 	degats,Pv,x,y:integer;
 	posx,posy:real;
 	Vitesse:Real;
 	direction:real;
-	Munitions:Tabmunition;
-	visible:boolean;
+	Munitions:Tabmunition; // Munitions du tank
+	visible:boolean; //Tank visible ou non
 	end;
-	
 
+// Tableau d'obstacles en fonction des cartes
+type tobst= array[1..MAX_OBTSACLES] of TSDL_Rect;
 
-type tobst= array[1..30] of TSDL_Rect;
-
-
-
+// Type carte
 type carte = record
 	Largeur,hauteur: integer;
 	Tob: tobst
 	end;
-	
+
+// Type joueur
 type joueur=record
 	nom:string;
 	t:tank;
 	score:integer
 	end;
 
-type Ttank = array [1..3] of tank;
+// Tableau de tank (il y en a 3 en tout)
+type Ttank = array [1..MAX_TANK] of tank;
 
-type tankTextures = array[0..15] of PSDL_Texture;
+// Tableau des différentes textures des tanks en fonction de leur orientation
+type tankTextures = array[0..MAX_TEXTURE] of PSDL_Texture;
+
+// Procedures
 
 procedure iniT(var T:Ttank);
 
 procedure iniScore(var j1,j2:joueur);
 
 procedure iniMun(j:joueur);
-procedure iniobst1(var car:tobst);
-procedure iniobst2(var car:tobst);
-procedure iniobst3(var car:tobst);
 
+procedure iniobst1(var car:tobst);
+
+procedure iniobst2(var car:tobst);
+
+procedure iniobst3(var car:tobst);
 
 
 implementation
 
+// Initialise les caractéristiques des tanks
 procedure iniT(var T:Ttank);
-
-BEGIN
+begin
 	T[1].nomT:='Vic';
 	T[1].degats:=50;
 	T[1].Pv:=200;
@@ -77,15 +87,16 @@ BEGIN
 	T[3].degats:=90;
 	T[3].Pv:=100;
 	T[3].Vitesse:=2.5;
-END;
-
-procedure iniScore(var j1,j2:joueur);
- 
-begin
-	j1.score:=0;
-	j2.score:=0;       //initialisation des scores
 end;
 
+// Initialise les scores
+procedure iniScore(var j1,j2:joueur);
+begin
+	j1.score:=0;
+	j2.score:=0;  
+end;
+
+// Initialise les munitions des tanks
 procedure iniMun(j:joueur);
 var i:integer;
 begin
@@ -93,9 +104,8 @@ begin
 		j.t.munitions[i].visible:= false
 end;
 
-
-
-procedure iniobst1(var car:tobst);// on initialise les obstacles de la carte 1
+// Initialise les obstacles de la carte 1
+procedure iniobst1(var car:tobst);
 var i:integer;
 begin
 	for i:=1 to 24 do
@@ -151,11 +161,10 @@ begin
 	car[23].y:=600; 
 	car[24].x:=1100;
 	car[24].y:=700;
-	
-		
 end;
 
-procedure iniobst2(var car:tobst);// on initialise les obstacles de la carte 2
+// Initialise les obstacles de la carte 2
+procedure iniobst2(var car:tobst);
 var i:integer;
 begin
 	for i:=1 to 24 do
@@ -211,10 +220,10 @@ begin
 	car[23].y:=1100; 
 	car[24].x:=1000;
 	car[24].y:=1100;
-		
 end;
 
-procedure iniobst3(var car:tobst);// on initialise les obstacles de la carte 3
+// Initialise les obstacles de la carte 3
+procedure iniobst3(var car:tobst);
 var i:integer;
 begin
 	for i:=1 to 29 do
@@ -230,7 +239,6 @@ begin
 	car[3].y:=0;
 	car[4].x:=900;
 	car[4].y:=100;
-	
 	car[5].x:=100;
 	car[5].y:=100;
 	car[6].x:=200;
@@ -239,14 +247,12 @@ begin
 	car[7].y:=100;
 	car[8].x:=900;
 	car[8].y:=100;
-	
 	car[9].x:=100;
 	car[9].y:=200;
 	car[10].x:=200;
 	car[10].y:=200;
 	car[11].x:=600;
-	car[11].y:=200;
-	
+	car[11].y:=200;	
 	car[12].x:=500;
 	car[12].y:=300;
 	car[13].x:=600;
@@ -255,7 +261,6 @@ begin
 	car[14].y:=300;
 	car[15].x:=1000;
 	car[15].y:=300;
-	
 	car[16].x:=100;
 	car[16].y:=400;
 	car[17].x:=200;
@@ -266,7 +271,6 @@ begin
 	car[19].y:=400;
 	car[20].x:=500;
 	car[20].y:=400;
-	
 	car[21].x:=0;
 	car[21].y:=600;
 	car[22].x:=100;
@@ -283,10 +287,8 @@ begin
 	car[27].y:=600;
 	car[28].x:=900;
 	car[28].y:=600;
-	
 	car[29].x:=0;
-	car[29].y:=700;
-		
+	car[29].y:=700;	
 end;
 
 end.
