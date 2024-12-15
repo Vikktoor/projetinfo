@@ -1,24 +1,28 @@
 unit jouercartes;
+
 interface
+
 uses SDL2, SDL2_image,math,types,mouvement,collisionMun,tirs,interaction;
 
-var
-  sdlWindow1: PSDL_Window;
-  sdlRenderer: PSDL_Renderer;
-  sdlKeyboardState: PUInt8;
-  sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4, sdlSurface5: PSDL_Surface;
-  sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8, sdlTexture9, sdlTexture10,sdlTexture11,backgroundTexture,TextureScore1,TextureScore2,TexturePv1,TexturePv2: PSDL_Texture;
-  sdlRectangle: TSDL_Rect;
-  i: integer;
-  event: TSDL_Event;
-  isRunning: Boolean;
-  lastRotationTime1: UInt32;
-  lastRotationTime2: UInt32;
-  lastshotTime1: UInt32;
-  lastshotTime2: UInt32;
-  rotationDelay: UInt32 = 100;
-  shotDelay: UInt32=500;
-  car1,car2,car3:tobst;
+var // Variables SDL
+	sdlWindow1: PSDL_Window;
+	sdlRenderer: PSDL_Renderer;
+	sdlKeyboardState: PUInt8;
+	sdlSurface1, sdlSurface2, sdlSurface3, sdlSurface4, sdlSurface5: PSDL_Surface;
+	sdlTexture1,sdlTexture2, sdlTexture3, sdlTexture4, sdlTexture5, sdlTexture6, sdlTexture7, sdlTexture8, sdlTexture9, sdlTexture10,sdlTexture11,backgroundTexture,TextureScore1,TextureScore2,TexturePv1,TexturePv2: PSDL_Texture;
+	sdlRectangle: TSDL_Rect;
+	
+	// Aures variables
+	i: integer;
+	event: TSDL_Event;
+	isRunning: Boolean;
+	lastRotationTime1: UInt32;
+	lastRotationTime2: UInt32;
+	lastshotTime1: UInt32;
+	lastshotTime2: UInt32;
+	rotationDelay: UInt32 = 100;
+	shotDelay: UInt32=500;
+	car1,car2,car3:tobst;
   
 procedure jouercarte1(var j1,j2:joueur);// Permet de lancer la partie sur la carte 1
 
@@ -104,13 +108,19 @@ begin
 			WriteLn('Erreur de création de la texture de rendu: ', SDL_GetError);
 			Halt(1);
 		end;    	
-	 
+	// Initialisation de la position des tanks au début de la partie
 	InitialiserTank(j1, 250, 100, 0);
 	InitialiserTank(j2, 500, 300, 180);
+	
+	//Initialisation des positions des obstacles pour la carte 2
 	iniobst1(car1);
+	
+	// Permet de charger toutes les textures des tanks (leur sprite)
 	chargerTexturesT1(sdlRenderer);
 	chargerTexturesT2(sdlRenderer);
 	chargerTexturesT3(sdlRenderer);
+	
+	//Initialise le score des deux joueurs à 0
 	iniScore(j1,j2);
 
 	// Boucle principale
@@ -423,7 +433,7 @@ begin
 					sdlRectangle.y := j1.t.y;
 					sdlRectangle.w := 60;
 					sdlRectangle.h := 60;
-					//Affiche différents tanks en fonction du choix
+					// Affiche différents tanks en fonction du choix
 					if j1.t.nomt ='Vic' then
 						SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
 					if j1.t.nomt ='Tom' then
@@ -439,7 +449,7 @@ begin
 					sdlRectangle.y := j2.t.y;
 					sdlRectangle.w := 60;
 					sdlRectangle.h := 60;
-					//Affiche différents tanks en fonction du choix
+					// Affiche différents tanks en fonction du choix
 					if j2.t.nomt ='Vic' then
 						SDL_RenderCopy(sdlRenderer, sdlTexture8, nil, @sdlRectangle);
 					if j2.t.nomt ='Tom' then
@@ -455,7 +465,7 @@ begin
 
 			// Appliquer la nouvelle position au rectangle rouge
   
-			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then 
+			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then  // Rotation vers la droite si la touche D est appuyée
 				begin  
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -464,7 +474,7 @@ begin
 						end;
 				end
     
-			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then
+			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then // Rotation vers la gauche si la touche Q est appuyée
 				begin 
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -477,7 +487,7 @@ begin
 			if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1, car1); // Avancer
 			if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,car1); // Reculer
 
-			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then // Rotations vers la droite
+			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then // Rotation vers la droite si la flèche de droite est appuyée
 				begin 
 					if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 						begin
@@ -486,7 +496,7 @@ begin
 						end;
 				end
 
-			else if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then //Rotation vers la droite
+			else if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then // Rotation vers la gauche si la flèche de gauche est appuyée
 				begin 
 					if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 						begin
@@ -498,8 +508,8 @@ begin
 
 			j1.t.visible:=true;
 			j2.t.visible:=true;
-			gererCollision(j2, j1); // Vérifie si T1 touche T2
-			gererCollision(j1, j2); // Vérifie si T2 touche T1
+			gererCollision(j2, j1); // Vérifie si T1 touche T2 (avec les munitions)
+			gererCollision(j1, j2); // Vérifie si T2 touche T1 (avec les munitions)
 
       
 			// Afficher le rendu final
@@ -507,13 +517,13 @@ begin
 			SDL_RenderClear(sdlRenderer); //Supprime les textures du renderer
 			SDL_RenderCopy(sdlRenderer, backgroundTexture, nil, nil); //Affiche la carte de nouveau
 
-			//Affichage des  les nouvelles positions du tank
+			//Affichage les nouvelles positions du tank
 			AfficherTank(j1,sdlRenderer);
 			AfficherTank(j2,sdlRenderer);
 	
 			// tirer les munitions T1
       
-			iniMun(j1);
+			iniMun(j1); // Initialise les munitions du joueur 1
 			if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
 				begin
 					for i := 1 to 5 do
@@ -527,13 +537,9 @@ begin
 								end;
 						end;
 				end;
-
-
-
-			avancerballe(j1,car1);
-
-
-      
+				
+			avancerballe(j1,car1); // Permet à la balle d'avancer 
+  
 			// affichtirs T1
 			for i:=1 to 5 do
 				begin
@@ -547,11 +553,10 @@ begin
 							SDL_RenderFillRect(sdlRenderer, @sdlRectangle);
 						end;
 				end;
-
  
 			// tirer les munitions T2
-      
-			iniMun(j2);
+			     
+			iniMun(j2); // Initialisation des munitions pour le joueuer 2
 			if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
 				begin
 				for i := 1 to 5 do
@@ -565,10 +570,9 @@ begin
 							end;
 					end;
 			end;
-			avancerballe(j2,car1);
-
-
-      
+			
+			avancerballe(j2,car1); // Permet à la balle d'avancer
+			
 			// affichtirs T2
 			for i:=1 to 5 do
 				begin
@@ -594,6 +598,8 @@ begin
 						isRunning := False;
 				end;
 		end;
+		
+	// Destruction des textures utilisées	
 	SDL_DestroyRenderer(sdlRenderer);
 	SDL_DestroyWindow (sdlWindow1);
 	SDL_DestroyTexture(sdlTexture1);
@@ -724,10 +730,17 @@ begin
 			WriteLn('Erreur de création de la texture de rendu: ', SDL_GetError);
 			Halt(1);
 		end;
-	
+	// Initialisation de la position des tanks au debut de la partie
 	InitialiserTank(j1, 40, 40, 0);
 	InitialiserTank(j2, 900, 500, 180);
+	
+	//Initialisation des positions des obstacles pour la carte 2
 	iniobst2(car2);
+	
+	//Initialise le score des deux joueurs à 0
+	iniScore(j1,j2);
+	
+	// Charge toutes les textures des tanks (leur sprite)
 	chargerTexturesT1(sdlRenderer);
 	chargerTexturesT2(sdlRenderer);
 	chargerTexturesT3(sdlRenderer);
@@ -1106,7 +1119,7 @@ begin
 
 			// Appliquer la nouvelle position au rectangle rouge
   
-			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then 
+			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then // Rotation vers la droite si la touche D est appuyée
 				begin
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -1116,7 +1129,7 @@ begin
 						end;
 				end
 				
-			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then
+			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then // Rotation vers la gauche si la touche Q est appuyée
 				begin
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -1129,14 +1142,14 @@ begin
 			if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1, car2); // Avancer
 			if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,car2); // Reculer
 
-			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
+			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then  // Rotation vers la droite si la flèche de droite est appuyée
 			if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 				begin
 					TournerDroite(j2);
 					lastRotationTime2 := SDL_GetTicks;
 				end;
 
-			if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then
+			if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then  // Rotation vers la gauche si la flèche de gauche est appuyée
 			if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 				begin
 					TournerGauche(j2);
@@ -1160,7 +1173,8 @@ begin
     
 			// tirer les munitions T1
       
-			iniMun(j1);
+			iniMun(j1); // Initialise les munitions du joueur 1
+			
 			if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
 				begin
 					for i := 1 to 5 do
@@ -1174,12 +1188,8 @@ begin
 						end;
 				end;
 
-
-
-			avancerballe(j1,car2);
-
-
-      
+			avancerballe(j1,car2); // Permet à la balle d'avancer
+   
 			// affichtirs T1
 			for i:=1 to 5 do
 				begin
@@ -1197,7 +1207,7 @@ begin
  
 			// tirer les munitions T2
       
-			iniMun(j2);
+			iniMun(j2); // Initialise les munitions du joueur 2
 			if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
 				begin
 					for i := 1 to 5 do
@@ -1210,10 +1220,9 @@ begin
 								end;
 						end;
 				end;
-			avancerballe(j2,car2);
-
-
-      
+				
+			avancerballe(j2,car2); // Permet à la balle d'avancer
+     
 			// affichtirs T2
 			for i:=1 to 5 do
 			begin
@@ -1239,8 +1248,8 @@ begin
 					isRunning := False;
 				end;
 		end;
+		
 	//vide la mémoire
-  
 	SDL_DestroyRenderer(sdlRenderer);
 	SDL_DestroyWindow (sdlWindow1);
 	SDL_DestroyTexture(sdlTexture1);
@@ -1257,6 +1266,8 @@ begin
 	SDL_FreeSurface(sdlSurface1);
 	SDL_FreeSurface(sdlSurface2);
 	SDL_FreeSurface(sdlSurface3);
+	SDL_FreeSurface(sdlSurface4);
+	SDL_FreeSurface(sdlSurface5);
 	// ferme la SDL2
 	SDL_Quit;
   
@@ -1361,12 +1372,20 @@ begin
 			Halt(1);
 		end;    
 
+	// Initialise les positions des tanks
 	InitialiserTank(j1, 40, 40, 0);
 	InitialiserTank(j2, 1100, 700, 180);
+	
+	// Initialise les positions des obstacles pour la carte 3
 	iniobst3(car3);
+	
+	// Charge les textures des tanks (leur sprite)
 	chargerTexturesT1(sdlRenderer);
 	chargerTexturesT2(sdlRenderer);
 	chargerTexturesT3(sdlRenderer);
+	
+	// Initialise le score des deux joueurs à 0
+	iniScore(j1,j2);
 
 	// Boucle principale
 	isRunning := True;
@@ -1711,7 +1730,7 @@ begin
 
 			// Appliquer la nouvelle position au rectangle rouge
   
-			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then 
+			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then // Rotation vers la droite si la touche D est appuyée
 				begin  
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -1719,7 +1738,7 @@ begin
 							lastRotationTime1 := SDL_GetTicks;
 						end;
 				end
-			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then
+			else if sdlKeyboardState[SDL_SCANCODE_A] = 1 then // Rotation vers la gauche si la touche Q est appuyée
 				begin
 					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
 						begin
@@ -1732,14 +1751,14 @@ begin
 			if sdlKeyboardState[SDL_SCANCODE_UP] = 1 then avancer(j2, 1,car3); // Avancer
 			if sdlKeyboardState[SDL_SCANCODE_DOWN] = 1 then avancer(j2, -1,car3); // Reculer
 
-			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then
+			if sdlKeyboardState[SDL_SCANCODE_RIGHT] = 1 then // Rotation vers la droite si la flèche droite est appuyée
 			if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 				begin
 					TournerDroite(j2);
 					lastRotationTime2 := SDL_GetTicks;
 				end;
 
-			if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then
+			if sdlKeyboardState[SDL_SCANCODE_LEFT] = 1 then // Rotation vers la gauche si la flèche gauche est appuyée
 			if SDL_GetTicks - lastRotationTime2 > rotationDelay then
 				begin
 					TournerGauche(j2);
@@ -1761,7 +1780,7 @@ begin
 			AfficherTank(j1,sdlRenderer);
 			AfficherTank(j2,sdlRenderer);
 
-			iniMun(j1);
+			iniMun(j1); // Initialise les munitions du joueur 1
 			
 			if (sdlKeyboardState[SDL_SCANCODE_SPACE] = 1) and (SDL_GetTicks - lastshotTime1 > shotDelay) then
 				begin
@@ -1776,12 +1795,8 @@ begin
 						end;
 				end;
 
+			avancerballe(j1,car3); // Permet à la balle d'avancer
 
-
-			avancerballe(j1,car3);
-
-
-      
 			// affichtirs T1
 			for i:=1 to 5 do
 				begin
@@ -1799,7 +1814,7 @@ begin
  
 			// tirer les munitions T2
       
-			iniMun(j2);
+			iniMun(j2); // Initialise les munitions du joueur 2
 			if (sdlKeyboardState[SDL_SCANCODE_L] = 1) and (SDL_GetTicks - lastshotTime2 > shotDelay) then
 				begin
 					for i := 1 to 5 do
@@ -1812,9 +1827,8 @@ begin
 								end;
 						end;
 				end;
-			avancerballe(j2,car3);
-
-
+				
+			avancerballe(j2,car3); // Permet à la balle d'avancer
       
 			// affichtirs T2
 			for i:=1 to 5 do
