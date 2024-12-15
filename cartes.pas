@@ -790,6 +790,8 @@ begin
 	SDL_FreeSurface(sdlSurface1);
 	SDL_FreeSurface(sdlSurface2);
 	SDL_FreeSurface(sdlSurface3);
+	SDL_FreeSurface(sdlSurface4);
+	SDL_FreeSurface(sdlSurface5);
 	// Ferme la SDL2
 	SDL_Quit;
 end;
@@ -1180,8 +1182,6 @@ begin
 
 	// Ferme la SDL2
 	SDL_Quit;
-  
 end;
-
 
 end.
