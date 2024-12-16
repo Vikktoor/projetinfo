@@ -61,7 +61,7 @@ procedure iniT(var T:Ttank);
 
 procedure iniScore(var j1,j2:joueur);
 
-procedure iniMun(j:joueur);
+procedure iniMun(var j:joueur);
 
 procedure iniobst1(var car:tobst);
 
@@ -97,7 +97,7 @@ begin
 end;
 
 // Initialise les munitions des tanks
-procedure iniMun(j:joueur);
+procedure iniMun(var j:joueur);
 var i:integer;
 begin
 	for i:=1 to 5 do
