@@ -458,7 +458,7 @@ begin
 						SDL_RenderCopy(sdlRenderer, sdlTexture10, nil, @sdlRectangle);
 				end;
 	
-			// Mettre à jour la position du rectangle rouge
+			// Controles tank 1
 		
 			if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,car1);
 			if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,car1);
@@ -467,7 +467,7 @@ begin
   
 			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then  // Rotation vers la droite si la touche D est appuyée
 				begin  
-					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
+					if SDL_GetTicks - lastRotationTime1 > rotationDelay then // délai pour la rotation
 						begin
 							TournerDroite(j1);
 							lastRotationTime1 := SDL_GetTicks;
@@ -532,7 +532,7 @@ begin
 							if not j1.t.munitions[i].visible then
 								begin
 									tirer(j1, i);
-									lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+									lastshotTime1 := SDL_GetTicks;// Délai pour le tir
 									Break; // On sort après avoir activé une balle
 								end;
 						end;
@@ -565,7 +565,7 @@ begin
 						if not j2.t.munitions[i].visible then
 							begin
 								tirer(j2, i);
-								lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+								lastshotTime2 := SDL_GetTicks;// Délai pour le tir
 								Break; // On sort après avoir activé une balle
 							end;
 					end;
@@ -1112,7 +1112,7 @@ begin
 						SDL_RenderCopy(sdlRenderer, sdlTexture11, nil, @sdlRectangle);
 				end;
 		
-			// Mettre à jour la position du rectangle rouge
+			// Contrôles du tank T1
 
 			if sdlKeyboardState[SDL_SCANCODE_W] = 1 then avancer(j1,1,car2);
 			if sdlKeyboardState[SDL_SCANCODE_S] = 1 then avancer(j1,-1,car2);
@@ -1121,7 +1121,7 @@ begin
   
 			if sdlKeyboardState[SDL_SCANCODE_D] = 1 then // Rotation vers la droite si la touche D est appuyée
 				begin
-					if SDL_GetTicks - lastRotationTime1 > rotationDelay then
+					if SDL_GetTicks - lastRotationTime1 > rotationDelay then // délai pour les rotations
 						begin
 							TournerDroite(j1);
 							AfficherTank(j1,sdlRenderer);
@@ -1182,7 +1182,7 @@ begin
 							if not j1.t.munitions[i].visible then // Trouver une balle inactive et la tirer
 								begin
 									tirer(j1, i);
-									lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+									lastshotTime1 := SDL_GetTicks;// Délai pour le tir
 									Break; // On sort après avoir activé une balle
 								end;
 						end;
@@ -1215,7 +1215,7 @@ begin
 							if not j2.t.munitions[i].visible then // Trouver une balle inactive et la tirer
 								begin
 									tirer(j2, i);
-									lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+									lastshotTime2 := SDL_GetTicks;// Délai pour le tir
 									Break; // On sort après avoir activé une balle
 								end;
 						end;
@@ -1789,7 +1789,7 @@ begin
 							if not j1.t.munitions[i].visible then // Trouver une balle inactive et la tirer
 								begin
 									tirer(j1, i);
-									lastshotTime1 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+									lastshotTime1 := SDL_GetTicks;// Délai pour le tir
 									Break; // On sort après avoir activé une balle
 								end;
 						end;
@@ -1822,7 +1822,7 @@ begin
 							if not j2.t.munitions[i].visible then // Trouver une balle inactive et la tirer
 								begin
 									tirer(j2, i);
-									lastshotTime2 := SDL_GetTicks;// Initialise les coordonnées, direction, etc.
+									lastshotTime2 := SDL_GetTicks;// Délai pour le tir
 									Break; // On sort après avoir activé une balle
 								end;
 						end;
