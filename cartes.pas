@@ -817,15 +817,15 @@ begin
 		Halt;
 
 	// Creer des surfaces à partir de fichiers d'images
-	sdlSurface1 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\sable.bmp');
+	sdlSurface1 := SDL_LoadBMP('./Images/sable.bmp');
 	if sdlSurface1 = nil then
 		Halt;
     
-	sdlSurface2 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse1.bmp');
+	sdlSurface2 := SDL_LoadBMP('./Images/caisse1.bmp');
 	if sdlSurface2 = nil then
 		Halt;
 	
-	sdlSurface3 := SDL_LoadBMP('C:\Users\victo\Desktop\PROJET INFO STPI2\Code\images\caisse2.bmp');
+	sdlSurface3 := SDL_LoadBMP('./Images/caisse2.bmp');
 	if sdlSurface2 = nil then
 		Halt;
 
