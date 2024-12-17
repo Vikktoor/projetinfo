@@ -112,12 +112,12 @@ begin
     // Limiter les coordonnées aux dimensions de l'écran
 	if j.T.posx < 0 then
 		j.T.posx := 0
-	else if j.T.posx > 1140 then // 1200 - largeur du tank (40 pixels)
+	else if j.T.posx > 1140 then // 1200 - largeur du tank (60 pixels)
 		j.T.posx := 1140;
 
 	if j.T.posy < 0 then
 		j.T.posy := 0
-	else if j.T.posy > 740 then // 800 - hauteur du tank (40 pixels)
+	else if j.T.posy > 740 then // 800 - hauteur du tank (60 pixels)
 		j.T.posy := 740;
 end;
 
