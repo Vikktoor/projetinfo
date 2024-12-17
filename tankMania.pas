@@ -1,4 +1,4 @@
-program menuterm;
+program tankMania;
 
 uses SDL2, SDL2_image, cartes, types, interaction, jouercartes;
 
